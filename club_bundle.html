@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cygnus Inventory Manager</title>
+    <!-- Modern typography for a premium look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* Premium CSS Variables */
+:root {
+    --bg-base: #0f172a;       /* Slate 900 */
+    --bg-surface: #1e293b;    /* Slate 800 */
+    --bg-glass: rgba(30, 41, 59, 0.7);
+    --bg-glass-hover: rgba(51, 65, 85, 0.8);
+    --border-glass: rgba(255, 255, 255, 0.1);
+    
+    --text-primary: #f8fafc;  /* Slate 50 */
+    --text-secondary: #94a3b8;/* Slate 400 */
+    
+    --accent-primary: #3b82f6;/* Blue 500 */
+    --accent-primary-hover: #2563eb; /* Blue 600 */
+    --accent-glow: rgba(59, 130, 246, 0.3);
+    
+    --danger: #ef4444;        /* Red 500 */
+    --success: #10b981;       /* Emerald 500 */
+    --warning: #f59e0b;       /* Amber 500 */
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+    background-attachment: fixed;
+}
+
+/* Typography */
+h1, h2, h3, h4 { color: var(--text-primary); font-weight: 600; }
+
+/* Utilities */
+.hidden { display: none !important; }
+.mt-2 { margin-top: 0.5rem; }
+
+/* Glassmorphism Classes */
+.glass-panel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-glass);
+}
+
+/* Screens */
+.screen {
+    display: none;
+    min-height: 100vh;
+    animation: fadeIn 0.4s ease-out;
+}
+.screen.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Auth Screen */
+#auth-screen { align-items: center; justify-content: center; padding: 1rem; }
+.auth-panel {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.logo-area { text-align: center; }
+.logo-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+.logo-icon.small { font-size: 1.5rem; margin-bottom: 0; }
+
+/* Custom Logo */
+.custom-logo {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+}
+.custom-logo.small {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+}
+
+/* Forms */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+.input-group label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+input, select, textarea {
+    width: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-size: 1rem;
+}
+.btn.small { padding: 0.5rem 1rem; font-size: 0.875rem; }
+.primary-btn {
+    background-color: var(--accent-primary);
+    color: white;
+    width: 100%;
+}
+.primary-btn:hover {
+    background-color: var(--accent-primary-hover);
+    box-shadow: 0 0 15px var(--accent-glow);
+    transform: translateY(-1px);
+}
+.secondary-btn {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-glass);
+}
+.secondary-btn:hover { background-color: var(--bg-glass-hover); }
+.outline-btn {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-glass);
+}
+.outline-btn:hover { background-color: rgba(255,255,255,0.05); }
+.ghost-btn {
+    background-color: transparent;
+    color: var(--text-secondary);
+}
+.ghost-btn:hover { color: var(--text-primary); }
+
+/* Dashboard Layout */
+#dashboard-screen {
+    flex-direction: row;
+    padding: 1rem;
+    gap: 1rem;
+    height: 100vh;
+}
+.sidebar {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    flex-shrink: 0;
+}
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+}
+.nav-item:hover {
+    color: var(--text-primary);
+    background-color: rgba(255,255,255,0.05);
+}
+.nav-item.active {
+    color: white;
+    background-color: var(--accent-primary);
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+.sidebar-footer {
+    border-top: 1px solid var(--border-glass);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.user-info { display: flex; align-items: center; gap: 0.75rem; }
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--accent-primary);
+    border: 2px solid var(--border-glass);
+}
+.user-details { display: flex; flex-direction: column; }
+.role-badge {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 1rem;
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-lg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.header-actions { display: flex; gap: 1rem; align-items: center; }
+.search-bar { position: relative; display: flex; align-items: center; }
+.search-bar .icon { position: absolute; left: 1rem; color: var(--text-secondary); }
+.search-bar input { padding-left: 2.5rem; width: 250px; margin-bottom: 0; }
+
+/* Views */
+.view { display: none; animation: fadeIn 0.3s ease-out; }
+.view.active { display: block; }
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.filter-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+.filter-btn:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+}
+.filter-btn.active {
+    background: var(--bg-surface);
+    border-color: var(--border-glass);
+    color: var(--text-primary);
+}
+
+/* Item Grid */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.item-card {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+.item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glass);
+    border-color: rgba(255,255,255,0.2);
+}
+.item-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-glass);
+}
+.item-image-placeholder {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-surface);
+    font-size: 3rem;
+    border-bottom: 1px solid var(--border-glass);
+}
+.item-content {
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+.item-title { font-size: 1.125rem; margin-bottom: 0.25rem; }
+.item-category-badge {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 1rem;
+    background: rgba(255,255,255,0.1);
+    color: var(--text-secondary);
+}
+.item-desc {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+.item-notes {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    border-left: 2px solid var(--warning);
+}
+.item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-glass);
+}
+.item-quantity { font-weight: 600; color: var(--accent-primary); }
+.item-actions { display: flex; gap: 0.5rem; }
+.action-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: var(--transition);
+    font-size: 1.125rem;
+}
+.action-btn:hover { color: var(--text-primary); }
+.action-btn:hover.edit { color: var(--accent-primary); background: rgba(59, 130, 246, 0.1); }
+.action-btn:hover.delete { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+/* Empty state */
+.empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--bg-glass);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-glass);
+}
+.empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.modal-overlay:not(.hidden) { opacity: 1; pointer-events: auto; }
+.modal {
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+.modal-overlay:not(.hidden) .modal { transform: translateY(0); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.close-modal {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.close-modal:hover { color: var(--text-primary); }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+.full-width { grid-column: 1 / -1; }
+
+.image-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.image-preview {
+    width: 100%;
+    height: 160px;
+    border: 2px dashed var(--border-glass);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    background-size: cover;
+    background-position: center;
+    transition: var(--transition);
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-glass);
+}
+.hidden-input { display: none !important; }
+
+/* Users Table */
+.table-container { overflow-x: auto; }
+.users-table { width: 100%; border-collapse: collapse; text-align: left; }
+.users-table th, .users-table td { padding: 1rem; border-bottom: 1px solid var(--border-glass); }
+.users-table th { font-weight: 500; color: var(--text-secondary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+.users-table tr:last-child td { border-bottom: none; }
+.users-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+.status-badge.temp {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+/* Toast */
+#toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+.toast {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--accent-primary);
+    animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
+}
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--danger); }
+
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+
+</style>
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        <!-- Auth Screen (Visible when not logged in) -->
+        <main id="auth-screen" class="screen active">
+            <div class="glass-panel auth-panel">
+                <div class="logo-area">
+                    <img src="cygnus logo.jpeg" alt="Cygnus Logo" class="custom-logo">
+                    <h1>Cygnus Logistics</h1>
+                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Access Inventory</button>
+                    <div style="margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+                        <p>Default Admin: <strong>admin</strong> / <strong>admin</strong></p>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Dashboard Screen (Visible when logged in) -->
+        <main id="dashboard-screen" class="screen">
+            <!-- Sidebar -->
+            <aside class="sidebar glass-panel">
+                <div class="sidebar-header">
+                    <img src="cygnus logo.jpeg" alt="Cygnus Logo" class="custom-logo small">
+                    <h2>Cygnus Inventory</h2>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" data-view="inventory">
+                        <span class="icon">📋</span> Inventory
+                    </button>
+                    <button class="nav-item admin-only hidden" data-view="users">
+                        <span class="icon">👥</span> Team Access
+                    </button>
+                    <button class="nav-item admin-only hidden" data-view="logs">
+                        <span class="icon">📜</span> Access Logs
+                    </button>
+                    <button class="nav-item admin-only hidden" data-view="settings">
+                        <span class="icon">⚙️</span> Settings
+                    </button>
+                </nav>
+                <div class="sidebar-footer">
+                    <div class="user-info">
+                        <div class="avatar" id="user-avatar">AD</div>
+                        <div class="user-details">
+                            <span id="display-name">Admin</span>
+                            <span id="display-role" class="role-badge">Admin</span>
+                        </div>
+                    </div>
+                    <button id="logout-btn" class="btn outline-btn small">Logout</button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <section class="main-content">
+                <!-- Header -->
+                <header class="top-header">
+                    <h1 id="view-title">Inventory Overview</h1>
+                    <div class="header-actions">
+                        <div class="search-bar">
+                            <span class="icon">🔍</span>
+                            <input type="text" id="search-input" placeholder="Search items...">
+                        </div>
+                        <button id="add-item-btn" class="btn primary-btn hidden">
+                            <span class="icon">+</span> Add Item
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Inventory View -->
+                <div id="view-inventory" class="view active">
+                    <div class="filters glass-panel" id="category-filters">
+                        <button class="filter-btn active" data-category="All">All Categories</button>
+                        <button class="filter-btn" data-category="Machines">Machines</button>
+                        <button class="filter-btn" data-category="Chemicals">Chemicals</button>
+                        <button class="filter-btn" data-category="Tools">Tools</button>
+                        <button class="filter-btn" data-category="Electronics">Electronics</button>
+                        <button class="filter-btn" data-category="Pipes">Pipes</button>
+                        <button class="filter-btn" data-category="Stationery">Stationery</button>
+                        <button class="filter-btn" data-category="Other">Other</button>
+                    </div>
+                    <div id="inventory-grid" class="item-grid">
+                        <!-- Items populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Users View (Admin Only) -->
+                <div id="view-users" class="view admin-only hidden">
+                    <div class="users-header">
+                        <h2>Temporary Access Management</h2>
+                        <button id="add-user-btn" class="btn secondary-btn">Generate Access</button>
+                    </div>
+                    <div class="glass-panel table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <!-- Users populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Access Logs View (Admin Only) -->
+                <div id="view-logs" class="view admin-only hidden">
+                    <div class="users-header">
+                        <h2>System Access Logs</h2>
+                    </div>
+                    <div class="glass-panel table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Username</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Settings View (Admin Only) -->
+                <div id="view-settings" class="view admin-only hidden">
+                    <div class="users-header">
+                        <h2>Admin Settings</h2>
+                    </div>
+                    <div class="glass-panel" style="padding: 2rem; max-width: 500px;">
+                        <form id="settings-form">
+                            <h3 style="margin-bottom: 1.5rem;">Update Master Credentials</h3>
+                            <div class="input-group">
+                                <label for="new-admin-user">New Master Username</label>
+                                <input type="text" id="new-admin-user" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="new-admin-pass">New Master Password</label>
+                                <input type="password" id="new-admin-pass" required>
+                            </div>
+                            <button type="submit" class="btn primary-btn mt-2">Save New Credentials</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modals -->
+        <!-- Add/Edit Item Modal -->
+        <div id="item-modal" class="modal-overlay hidden">
+            <div class="modal glass-panel">
+                <div class="modal-header">
+                    <h3 id="item-modal-title">Add New Item</h3>
+                    <button class="close-modal" aria-label="Close">×</button>
+                </div>
+                <form id="item-form">
+                    <input type="hidden" id="item-id">
+                    <div class="image-upload-wrapper">
+                        <div class="image-preview" id="image-preview">
+                            <span class="icon" style="font-size: 2rem;">📸</span>
+                            <p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>
+                        </div>
+                        <input type="file" id="item-image" accept="image/*" capture="environment" class="hidden-input">
+                        <input type="hidden" id="item-image-base64">
+                        <button type="button" id="trigger-upload" class="btn outline-btn small mt-2">Select Image</button>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="item-name">Item Name</label>
+                            <input type="text" id="item-name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="item-category">Category</label>
+                            <select id="item-category" required>
+                                <option value="Machines">Machines</option>
+                                <option value="Chemicals">Chemicals</option>
+                                <option value="Tools">Tools</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Pipes">Pipes</option>
+                                <option value="Stationery">Stationery</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="item-quantity">Quantity</label>
+                            <input type="number" id="item-quantity" min="1" value="1" required>
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="item-description">Description</label>
+                            <textarea id="item-description" rows="3"></textarea>
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="item-notes">Notes / Status</label>
+                            <textarea id="item-notes" rows="2" placeholder="e.g. Needs repair, checked out by John, etc."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn ghost-btn close-modal">Cancel</button>
+                        <button type="submit" class="btn primary-btn" id="item-save-btn">Save Item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add User Modal -->
+        <div id="user-modal" class="modal-overlay hidden">
+            <div class="modal glass-panel">
+                <div class="modal-header">
+                    <h3>Generate Temporary Access</h3>
+                    <button class="close-modal" aria-label="Close">×</button>
+                </div>
+                <form id="user-form">
+                    <div class="input-group">
+                        <label for="new-username">Teammate Username</label>
+                        <input type="text" id="new-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="new-password">Temporary Password</label>
+                        <input type="text" id="new-password" placeholder="Will be randomly generated if empty">
+                    </div>
+                    <div class="input-group">
+                        <label for="new-user-role">Role Access Level</label>
+                        <select id="new-user-role" required>
+                            <option value="team">Editor (Can Add/Modify Items)</option>
+                            <option value="viewer">Viewer (View Items Only)</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn ghost-btn close-modal">Cancel</button>
+                        <button type="submit" class="btn primary-btn">Create User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <script>
+// Global Error Handler
+window.onerror = function(msg, url, line) {
+    console.error("Application Error: " + msg + "\nLine: " + line);
+};
+
+// Supabase REST Configuration (No External Libraries Required)
+const SUPABASE_URL = 'https://thocxtjnxufdxaucjuow.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRob2N4dGpueHVmZHhhdWNqdW93Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3ODIyNjcsImV4cCI6MjA5MDM1ODI2N30.jiUMKyOxcdD08miRw6NEoYtR_G-pptI1QtH0BTeyd9k';
+
+const sbFetch = async (endpoint, options = {}) => {
+    const defaultHeaders = {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+    };
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+        ...options,
+        headers: { ...defaultHeaders, ...options.headers }
+    });
+    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    if (res.status === 204) return null;
+    return res.json();
+};
+
+// Global State
+const DB = {
+    users: [],
+    items: [],
+    logs: [],
+    currentUser: null
+};
+
+// UI Elements
+const els = {
+    screens: document.querySelectorAll('.screen'),
+    authScreen: document.getElementById('auth-screen'),
+    dashboardScreen: document.getElementById('dashboard-screen'),
+    loginForm: document.getElementById('login-form'),
+    logoutBtn: document.getElementById('logout-btn'),
+    
+    displayName: document.getElementById('display-name'),
+    displayRole: document.getElementById('display-role'),
+    userAvatar: document.getElementById('user-avatar'),
+    adminOnlyElements: document.querySelectorAll('.admin-only'),
+    
+    navItems: document.querySelectorAll('.nav-item'),
+    views: document.querySelectorAll('.view'),
+    viewTitle: document.getElementById('view-title'),
+    
+    inventoryGrid: document.getElementById('inventory-grid'),
+    categoryFilters: document.querySelectorAll('.filter-btn'),
+    searchInput: document.getElementById('search-input'),
+    addItemBtn: document.getElementById('add-item-btn'),
+    
+    closeModalBtns: document.querySelectorAll('.close-modal'),
+    
+    itemModal: document.getElementById('item-modal'),
+    itemForm: document.getElementById('item-form'),
+    itemModalTitle: document.getElementById('item-modal-title'),
+    itemIdInput: document.getElementById('item-id'),
+    itemNameInput: document.getElementById('item-name'),
+    itemCatInput: document.getElementById('item-category'),
+    itemQtyInput: document.getElementById('item-quantity'),
+    itemDescInput: document.getElementById('item-description'),
+    itemNotesInput: document.getElementById('item-notes'),
+    itemImageInput: document.getElementById('item-image'),
+    itemImageBase64: document.getElementById('item-image-base64'),
+    imagePreview: document.getElementById('image-preview'),
+    triggerUploadBtn: document.getElementById('trigger-upload'),
+    
+    userModal: document.getElementById('user-modal'),
+    userForm: document.getElementById('user-form'),
+    addUserBtn: document.getElementById('add-user-btn'),
+    usersTbody: document.getElementById('users-tbody'),
+    
+    logsTbody: document.getElementById('logs-tbody'),
+    settingsForm: document.getElementById('settings-form'),
+    newAdminUser: document.getElementById('new-admin-user'),
+    newAdminPass: document.getElementById('new-admin-pass'),
+    
+    toastContainer: document.getElementById('toast-container')
+};
+
+let currentCategory = 'All';
+let searchTerm = '';
+
+// Utilities
+const generateId = () => Math.random().toString(36).substr(2, 9);
+const showToast = (message, type = 'success') => {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    els.toastContainer.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3000); 
+};
+
+// --- DATA LAYER --- //
+async function syncLocalState() {
+    try {
+        const [usersData, itemsData, logsData] = await Promise.all([
+            sbFetch('users?select=*'),
+            sbFetch('items?select=*'),
+            sbFetch('access_logs?select=*&order=timestamp.desc')
+        ]);
+        if(usersData) DB.users = usersData;
+        if(itemsData) DB.items = itemsData;
+        if(logsData) DB.logs = logsData;
+    } catch(e) { console.error("Database sync error:", e); }
+}
+
+async function logAccess(username, action) {
+    try {
+        await sbFetch('access_logs', {
+            method: 'POST',
+            body: JSON.stringify({ username, action })
+        });
+    } catch(e) { console.error('Failed to log access', e); }
+}
+
+// --- AUTHENTICATION --- //
+els.loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Authenticating...';
+    btn.disabled = true;
+
+    await syncLocalState();
+
+    const userIn = document.getElementById('username').value.trim();
+    const passIn = document.getElementById('password').value.trim();
+    
+    const validUser = DB.users.find(u => u.username.toLowerCase() === userIn.toLowerCase() && u.password === passIn);
+    
+    if (validUser) {
+        DB.currentUser = validUser;
+        await logAccess(validUser.username, 'Login');
+        initDashboard();
+        showToast(`Welcome back, ${validUser.username}!`);
+    } else {
+        showToast('Invalid username or password', 'error');
+    }
+    
+    btn.textContent = 'Access Inventory';
+    btn.disabled = false;
+});
+
+els.logoutBtn.addEventListener('click', async () => {
+    if(DB.currentUser) await logAccess(DB.currentUser.username, 'Logout');
+    DB.currentUser = null;
+    switchScreen('auth-screen');
+    els.loginForm.reset();
+});
+
+// --- SETTINGS --- //
+els.settingsForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(DB.currentUser.role !== 'admin') return;
+    
+    const newUsername = els.newAdminUser.value.trim();
+    const newPassword = els.newAdminPass.value.trim();
+    
+    if(!newUsername || !newPassword) return;
+
+    try {
+        await sbFetch(`users?id=eq.${DB.currentUser.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ username: newUsername, password: newPassword })
+        });
+        
+        await logAccess(newUsername, 'Updated Master Credentials');
+        
+        showToast('Credentials updated! Please login again.');
+        setTimeout(() => els.logoutBtn.click(), 2000);
+    } catch(err) {
+        showToast('Failed to update credentials. Username might be taken.', 'error');
+    }
+});
+
+// --- NAVIGATION --- //
+const switchScreen = (screenId) => {
+    els.screens.forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+};
+
+const switchView = async (viewId, title) => {
+    els.views.forEach(v => v.classList.remove('active'));
+    document.getElementById(`view-${viewId}`).classList.add('active');
+    
+    els.navItems.forEach(n => n.classList.remove('active'));
+    const activeNav = document.querySelector(`.nav-item[data-view="${viewId}"]`);
+    if(activeNav) activeNav.classList.add('active');
+    
+    els.viewTitle.textContent = title;
+    
+    if(viewId === 'users' || viewId === 'logs') {
+        await syncLocalState();
+        if(viewId === 'users') renderUsers();
+        if(viewId === 'logs') renderLogs();
+    }
+    if(viewId === 'settings') {
+        els.newAdminUser.value = DB.currentUser.username;
+        els.newAdminPass.value = '';
+    }
+};
+
+els.navItems.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const view = e.currentTarget.dataset.view;
+        const title = e.currentTarget.textContent.trim();
+        switchView(view, title);
+    });
+});
+
+const initDashboard = () => {
+    switchScreen('dashboard-screen');
+    
+    els.displayName.textContent = DB.currentUser.username;
+    els.displayRole.textContent = DB.currentUser.role;
+    els.userAvatar.textContent = DB.currentUser.username.substring(0, 2).toUpperCase();
+    
+    if (DB.currentUser.role === 'admin') {
+        els.adminOnlyElements.forEach(el => el.classList.remove('hidden'));
+    } else {
+        els.adminOnlyElements.forEach(el => el.classList.add('hidden'));
+    }
+    
+    if (DB.currentUser.role === 'admin' || DB.currentUser.role === 'team') {
+        els.addItemBtn.classList.remove('hidden');
+    } else {
+        els.addItemBtn.classList.add('hidden');
+    }
+    
+    switchView('inventory', 'Inventory Overview');
+    renderInventory();
+};
+
+// --- RENDERERS --- //
+const renderInventory = () => {
+    let filtered = DB.items;
+    
+    if (currentCategory !== 'All') {
+        filtered = filtered.filter(i => i.category === currentCategory);
+    }
+    if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        filtered = filtered.filter(i => 
+            i.name.toLowerCase().includes(term) || 
+            (i.description && i.description.toLowerCase().includes(term))
+        );
+    }
+    
+    els.inventoryGrid.innerHTML = '';
+    
+    if (filtered.length === 0) {
+        els.inventoryGrid.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">📦</div>
+                <h3>No items found</h3>
+                <p>Try a different search or add a new item.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    filtered.forEach(item => {
+        const canEdit = DB.currentUser.role === 'admin' || DB.currentUser.role === 'team';
+        const actionsHtml = canEdit ? `
+            <div class="item-actions">
+                <button class="action-btn edit" onclick="editItem('${item.id}')" title="Edit">✏️</button>
+                <button class="action-btn delete" onclick="deleteItem('${item.id}')" title="Delete">🗑️</button>
+            </div>
+        ` : '';
+        
+        const imageHtml = item.image 
+            ? `<img src="${item.image}" class="item-image" alt="${item.name}">`
+            : `<div class="item-image-placeholder">📦</div>`;
+        const notesHtml = item.notes ? `<div class="item-notes"><strong>Notes: </strong>${item.notes}</div>` : '';
+            
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+            ${imageHtml}
+            <div class="item-content">
+                <div class="item-header">
+                    <h3 class="item-title">${item.name}</h3>
+                    <span class="item-category-badge">${item.category}</span>
+                </div>
+                <p class="item-desc">${item.description || 'No description provided.'}</p>
+                ${notesHtml}
+                <div class="item-footer">
+                    <span class="item-quantity">Qty: ${item.quantity}</span>
+                    ${actionsHtml}
+                </div>
+            </div>
+        `;
+        els.inventoryGrid.appendChild(card);
+    });
+};
+
+const renderUsers = () => {
+    els.usersTbody.innerHTML = '';
+    DB.users.forEach(user => {
+        const isSelf = user.id === DB.currentUser.id;
+        const deleteBtn = !isSelf && user.role !== 'admin' 
+            ? `<button class="action-btn delete" onclick="deleteUser('${user.id}')" title="Revoke">🗑️</button>`
+            : '';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.username} ${isSelf ? '(You)' : ''}</td>
+            <td><span class="role-badge">${user.role}</span></td>
+            <td><span class="status-badge ${user.status === 'temporary' ? 'temp' : ''}">${user.status}</span></td>
+            <td>${deleteBtn}</td>
+        `;
+        els.usersTbody.appendChild(row);
+    });
+};
+
+const renderLogs = () => {
+    els.logsTbody.innerHTML = '';
+    DB.logs.forEach(log => {
+        const d = new Date(log.timestamp);
+        const timeStr = `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${timeStr}</td>
+            <td><strong>${log.username}</strong></td>
+            <td><span class="status-badge">${log.action}</span></td>
+        `;
+        els.logsTbody.appendChild(row);
+    });
+};
+
+// --- INTERACTIONS & FORMS --- //
+els.categoryFilters.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        els.categoryFilters.forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        currentCategory = e.currentTarget.dataset.category;
+        renderInventory();
+    });
+});
+
+els.searchInput.addEventListener('input', (e) => {
+    searchTerm = e.target.value.trim();
+    renderInventory();
+});
+
+const openModal = (modalId) => { els[modalId].classList.remove('hidden'); };
+const closeModals = () => { els.closeModalBtns.forEach(btn => btn.closest('.modal-overlay').classList.add('hidden')); };
+els.closeModalBtns.forEach(btn => btn.addEventListener('click', closeModals));
+
+// Handle Item Modal
+els.addItemBtn.addEventListener('click', () => {
+    els.itemForm.reset();
+    els.itemIdInput.value = '';
+    els.itemModalTitle.textContent = 'Add New Item';
+    els.itemImageBase64.value = '';
+    els.imagePreview.style.backgroundImage = 'none';
+    els.imagePreview.innerHTML = '<span class="icon" style="font-size: 2rem;">📸</span><p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>';
+    openModal('itemModal');
+});
+
+els.triggerUploadBtn.addEventListener('click', () => els.itemImageInput.click());
+
+els.itemImageInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 600;
+                let width = img.width;
+                let height = img.height;
+                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                els.itemImageBase64.value = dataUrl;
+                els.imagePreview.style.backgroundImage = `url(${dataUrl})`;
+                els.imagePreview.innerHTML = '';
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+els.itemForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('item-save-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+    
+    const newItem = {
+        name: els.itemNameInput.value,
+        category: els.itemCatInput.value,
+        quantity: parseInt(els.itemQtyInput.value, 10),
+        description: els.itemDescInput.value,
+        notes: els.itemNotesInput.value,
+        image: els.itemImageBase64.value
+    };
+    
+    try {
+        if (els.itemIdInput.value) {
+            newItem.id = els.itemIdInput.value;
+            await sbFetch(`items?id=eq.${newItem.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify(newItem)
+            });
+            await logAccess(DB.currentUser.username, `Updated item: ${newItem.name}`);
+            showToast('Item updated successfully');
+        } else {
+            newItem.id = generateId();
+            await sbFetch('items', {
+                method: 'POST',
+                body: JSON.stringify(newItem)
+            });
+            await logAccess(DB.currentUser.username, `Added new item: ${newItem.name}`);
+            showToast('Item added successfully');
+        }
+        await syncLocalState();
+        renderInventory();
+        closeModals();
+    } catch(err) {
+        console.error(err);
+        showToast('Failed to save', 'error');
+    }
+    
+    btn.disabled = false;
+    btn.textContent = 'Save Item';
+});
+
+window.editItem = async (id) => {
+    const item = DB.items.find(i => i.id === id);
+    if (!item) return;
+    
+    els.itemIdInput.value = item.id;
+    els.itemNameInput.value = item.name;
+    els.itemCatInput.value = item.category;
+    els.itemQtyInput.value = item.quantity;
+    els.itemDescInput.value = item.description || '';
+    els.itemNotesInput.value = item.notes || '';
+    els.itemImageBase64.value = item.image || '';
+    
+    if (item.image) {
+        els.imagePreview.style.backgroundImage = `url(${item.image})`;
+        els.imagePreview.innerHTML = '';
+    } else {
+        els.imagePreview.style.backgroundImage = 'none';
+        els.imagePreview.innerHTML = '<span class="icon" style="font-size: 2rem;">📸</span><p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>';
+    }
+    
+    els.itemModalTitle.textContent = 'Edit Item';
+    openModal('itemModal');
+};
+
+window.deleteItem = async (id) => {
+    if(confirm('Are you sure you want to delete this item?')) {
+        try {
+            const item = DB.items.find(i => i.id === id);
+            await sbFetch(`items?id=eq.${id}`, { method: 'DELETE' });
+            await logAccess(DB.currentUser.username, `Deleted item: ${item ? item.name : id}`);
+            await syncLocalState();
+            renderInventory();
+            showToast('Item deleted successfully');
+        } catch(e) { showToast('Failure deleting item', 'error'); }
+    }
+};
+
+els.addUserBtn.addEventListener('click', () => {
+    els.userForm.reset();
+    openModal('userModal');
+});
+
+els.userForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    
+    const username = document.getElementById('new-username').value.trim();
+    let password = document.getElementById('new-password').value.trim();
+    if (!password) password = Math.random().toString(36).substr(2, 6);
+    
+    if(DB.users.some(u => u.username === username)) {
+        showToast('Username already exists', 'error');
+        btn.disabled = false;
+        return;
+    }
+    
+    const roleLevel = document.getElementById('new-user-role').value;
+    
+    try {
+        await sbFetch('users', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: generateId(),
+                username,
+                password,
+                role: roleLevel,
+                status: 'temporary'
+            })
+        });
+        
+        await logAccess(DB.currentUser.username, `Created temporary access for: ${username}`);
+        await syncLocalState();
+        renderUsers();
+        closeModals();
+        showToast(`User created in database!`);
+        setTimeout(() => alert(`Temporary access generated:\nUsername: ${username}\nPassword: ${password}\n\nPlease share these credentials securely.`), 500);
+    } catch(err) {
+        showToast('Error syncing user', 'error');
+    }
+    btn.disabled = false;
+});
+
+window.deleteUser = async (id) => {
+    if(confirm('Revoke access for this user across all devices?')) {
+        try {
+            const tempUser = DB.users.find(u => u.id === id);
+            await sbFetch(`users?id=eq.${id}`, { method: 'DELETE' });
+            await logAccess(DB.currentUser.username, `Revoked access for: ${tempUser ? tempUser.username : id}`);
+            await syncLocalState();
+            renderUsers();
+            showToast('User access revoked');
+        } catch(e) {}
+    }
+};
+
+syncLocalState();
+
+</script>
+</body>
+</html>
