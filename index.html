@@ -861,7 +861,7 @@ input:focus, select:focus, textarea:focus {
     .btn.small { min-height: 38px; font-size: 0.8rem; }
     .action-btn { min-width: 34px; min-height: 34px; font-size: 1.1rem; }
 
-    /* Tables → card layout on mobile (users, logs, checkouts) */
+    /* Tables — card layout on mobile (users, logs, checkouts) */
     .table-container { overflow-x: visible; }
     .users-table thead { display: none; }
     .users-table,
@@ -968,7 +968,7 @@ input:focus, select:focus, textarea:focus {
     .sidebar .user-info { justify-content: center; }
 }
 
-/* Very small phones (≤380px) */
+/* Very small phones (???380px) */
 @media (max-width: 380px) {
     .item-grid {
         grid-template-columns: 1fr;
@@ -1701,7 +1701,7 @@ input:focus, select:focus, textarea:focus {
                         <span class="icon">📤</span> <span class="nav-text">Checkouts</span>
                     </button>
                     <button class="nav-item admin-only hidden" data-view="users">
-                        <span class="icon">👥</span> <span class="nav-text">Team Access</span>
+                        <span class="icon">👤</span> <span class="nav-text">Team Access</span>
                     </button>
                     <button class="nav-item admin-only hidden" data-view="logs">
                         <span class="icon">📜</span> <span class="nav-text">Access Logs</span>
@@ -1710,7 +1710,7 @@ input:focus, select:focus, textarea:focus {
                         <span class="icon">⚙️</span> <span class="nav-text">Settings</span>
                     </button>
                     <button class="nav-item" data-view="requests" id="nav-requests">
-                        <span class="icon">📑</span> <span class="nav-text">Requests</span><span id="req-request-counter" class="required-counter hidden">0</span>
+                        <span class="icon">🗂️</span> <span class="nav-text">Requests</span><span id="req-request-counter" class="required-counter hidden">0</span>
                     </button>
                     <button class="nav-item" data-view="required" id="nav-required">
                         <span class="icon">🛒</span> <span class="nav-text">Items Required</span><span id="req-counter" class="required-counter hidden">0</span>
@@ -1749,7 +1749,7 @@ input:focus, select:focus, textarea:focus {
                 <!-- Inventory View -->
                 <div id="view-inventory" class="view active">
                     <div id="overdue-banner" class="overdue-banner hidden">
-                        <span class="banner-icon">⚠️</span>
+                        <span class="banner-icon">️</span>
                         <span>Attention: <span class="banner-count" id="overdue-count">0</span> item(s) are overdue and need to be returned!</span>
                     </div>
                     <div class="filters glass-panel" id="category-filters">
@@ -1795,8 +1795,8 @@ input:focus, select:focus, textarea:focus {
                     <!-- Filter Tabs -->
                     <div class="checkout-filter-tabs" id="checkout-filter-tabs">
                         <button class="filter-btn active" data-co-filter="all">All</button>
-                        <button class="filter-btn" data-co-filter="active">🟢 Active</button>
-                        <button class="filter-btn" data-co-filter="overdue">🔴 Overdue</button>
+                        <button class="filter-btn" data-co-filter="active">⏰ Active</button>
+                        <button class="filter-btn" data-co-filter="overdue">⚠️ Overdue</button>
                         <button class="filter-btn" data-co-filter="returned">✅ Returned</button>
                         <button class="filter-btn" data-co-filter="consumed">🔥 Consumed</button>
                     </div>
@@ -1881,12 +1881,12 @@ input:focus, select:focus, textarea:focus {
                 <!-- Requests View -->
                 <div id="view-requests" class="view">
                     <div class="users-header">
-                        <h2>📑 Item Requests</h2>
+                        <h2>📋 Item Requests</h2>
                         <div style="display:flex;gap:0.5rem;align-items:center;">
                             <div class="request-status-tabs" id="request-status-tabs">
                                 <button class="filter-btn active" data-req-status="all">All</button>
-                                <button class="filter-btn" data-req-status="pending">🟡 Pending</button>
-                                <button class="filter-btn" data-req-status="reviewed">🟢 Reviewed</button>
+                                <button class="filter-btn" data-req-status="pending">⏳ Pending</button>
+                                <button class="filter-btn" data-req-status="reviewed">✅ Reviewed</button>
                             </div>
                             <button id="new-request-btn" class="btn secondary-btn">+ New Request</button>
                         </div>
@@ -1916,7 +1916,7 @@ input:focus, select:focus, textarea:focus {
                         </form>
                     </div>
                     <div class="glass-panel" style="padding: 2rem; max-width: 700px; margin-top: 1.5rem;">
-                        <h3 style="margin-bottom: 0.5rem;">📁 Manage Categories</h3>
+                        <h3 style="margin-bottom: 0.5rem;">📂 Manage Categories</h3>
                         <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Add, edit, or remove inventory categories.</p>
                         <div style="display: flex; gap: 0.75rem; margin-top: 1rem; align-items: stretch;">
                             <input type="text" id="new-cat-icon" placeholder="📦" style="width:70px; text-align:center; font-size:1.5rem; padding:0.75rem; color:white; background:rgba(15,23,42,0.8); border:1px solid rgba(148,163,184,0.2); border-radius:8px;">
@@ -1937,13 +1937,13 @@ input:focus, select:focus, textarea:focus {
             <div class="modal glass-panel">
                 <div class="modal-header">
                     <h3 id="item-modal-title">Add New Item</h3>
-                    <button class="close-modal" aria-label="Close">×</button>
+                    <button class="close-modal" aria-label="Close">✕</button>
                 </div>
                 <form id="item-form">
                     <input type="hidden" id="item-id">
                     <div class="image-upload-wrapper">
                         <div class="image-preview" id="image-preview">
-                            <span class="icon" style="font-size: 2rem;">📸</span>
+                            <span class="icon" style="font-size: 2rem;">🖼️</span>
                             <p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>
                         </div>
                         <input type="file" id="item-image" accept="image/*" capture="environment" class="hidden-input">
@@ -1975,7 +1975,7 @@ input:focus, select:focus, textarea:focus {
                             <input type="number" id="item-min-quantity" min="0" value="" placeholder="e.g. 2 (alerts when qty falls to this)">
                         </div>
                         <div class="input-group full-width weight-fields" id="weight-fields">
-                            <label style="margin-bottom:0.5rem;color:var(--warning);">⚗️ Chemical Weight Tracking</label>
+                            <label style="margin-bottom:0.5rem;color:var(--warning);">s?✏️ Chemical Weight Tracking</label>
                             <div class="form-grid">
                                 <div class="input-group">
                                     <label for="item-weight">Current Weight (grams)</label>
@@ -2009,7 +2009,7 @@ input:focus, select:focus, textarea:focus {
             <div class="modal glass-panel">
                 <div class="modal-header">
                     <h3>Generate Temporary Access</h3>
-                    <button class="close-modal" aria-label="Close">×</button>
+                    <button class="close-modal" aria-label="Close">🔢</button>
                 </div>
                 <form id="user-form">
                     <div class="input-group">
@@ -2042,7 +2042,7 @@ input:focus, select:focus, textarea:focus {
         <div class="modal glass-panel">
             <div class="modal-header">
                 <h3>Add Required Item</h3>
-                <button class="close-modal" aria-label="Close">×</button>
+                <button class="close-modal" aria-label="Close">🔢</button>
             </div>
             <form id="required-form">
                 <div class="input-group">
@@ -2057,7 +2057,7 @@ input:focus, select:focus, textarea:focus {
                     <div class="input-group">
                         <label for="req-priority">Priority</label>
                         <select id="req-priority">
-                            <option value="high">🔴 High</option>
+                            <option value="high">🔥 High</option>
                             <option value="medium" selected>🟡 Medium</option>
                             <option value="low">🟢 Low</option>
                         </select>
@@ -2080,7 +2080,7 @@ input:focus, select:focus, textarea:focus {
         <div class="modal glass-panel" style="max-width: 600px;">
             <div class="modal-header">
                 <h3 id="detail-title">Item Details</h3>
-                <button class="close-modal" aria-label="Close">×</button>
+                <button class="close-modal" aria-label="Close">🔢</button>
             </div>
             <div id="detail-content"></div>
         </div>
@@ -2091,7 +2091,7 @@ input:focus, select:focus, textarea:focus {
         <div class="modal glass-panel">
             <div class="modal-header">
                 <h3 id="checkout-modal-title">Check Out Item</h3>
-                <button class="close-modal" aria-label="Close">×</button>
+                <button class="close-modal" aria-label="Close">🔢</button>
             </div>
             <form id="checkout-form">
                 <input type="hidden" id="checkout-item-id">
@@ -2110,7 +2110,7 @@ input:focus, select:focus, textarea:focus {
                         <input type="date" id="checkout-date" required>
                     </div>
                     <div class="input-group">
-                        <label for="checkout-return">📅 Expected Return</label>
+                        <label for="checkout-return">⏰ Expected Return</label>
                         <input type="date" id="checkout-return" required>
                     </div>
                 </div>
@@ -2131,7 +2131,7 @@ input:focus, select:focus, textarea:focus {
         <div class="modal glass-panel" style="max-width: 650px;">
             <div class="modal-header">
                 <h3 id="request-modal-title">New Request</h3>
-                <button class="close-modal" aria-label="Close">×</button>
+                <button class="close-modal" aria-label="Close">🔢</button>
             </div>
             <form id="request-form">
                 <input type="hidden" id="request-id">
@@ -2147,9 +2147,10 @@ input:focus, select:focus, textarea:focus {
                             <div id="request-search-dropdown" class="search-dropdown hidden"></div>
                         </div>
                         <input type="number" id="request-item-qty" min="1" value="1" style="width:80px;" placeholder="Qty">
+                        <input type="number" id="request-item-weight" min="0" step="0.1" style="width:100px;" placeholder="Weight(g)" class="hidden">
                         <button type="button" id="add-request-item-btn" class="btn secondary-btn small">Add</button>
                     </div>
-                    <p style="font-size:0.7rem;color:var(--text-secondary);margin-top:0.3rem;">Items from inventory show as ● In Stock. New items to purchase show as ○ To Buy.</p>
+                    <p style="font-size:0.7rem;color:var(--text-secondary);margin-top:0.3rem;">Items from inventory show as 📦 In Stock. New items to purchase show as ?✅ To Buy.</p>
                 </div>
                 <div id="request-items-list" class="request-items-list">
                     <!-- Dynamically populated -->
@@ -2168,7 +2169,7 @@ input:focus, select:focus, textarea:focus {
         <div class="modal glass-panel" style="max-width: 700px;">
             <div class="modal-header">
                 <h3 id="review-modal-title">Review Request</h3>
-                <button class="close-modal" aria-label="Close">×</button>
+                <button class="close-modal" aria-label="Close">🔢</button>
             </div>
             <div id="review-info" style="margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;"></div>
             <div id="review-items-list" class="review-items-list">
@@ -2197,7 +2198,7 @@ input:focus, select:focus, textarea:focus {
                 <span>Checkouts</span>
             </button>
             <button class="bottom-nav-item admin-only-mobile hidden" data-view="users">
-                <span class="nav-icon">👥</span>
+                <span class="nav-icon">👤</span>
                 <span>Team</span>
             </button>
             <button class="bottom-nav-item admin-only-mobile hidden" data-view="logs">
@@ -2209,7 +2210,7 @@ input:focus, select:focus, textarea:focus {
                 <span>Settings</span>
             </button>
             <button class="bottom-nav-item" data-view="requests">
-                <span class="nav-icon">📑</span>
+                <span class="nav-icon">🗂️</span>
                 <span>Requests</span>
             </button>
             <button class="bottom-nav-item" data-view="required" id="mobile-nav-required">
@@ -2217,7 +2218,7 @@ input:focus, select:focus, textarea:focus {
                 <span>Buy List</span>
             </button>
             <button class="bottom-nav-item" id="mobile-logout-btn">
-                <span class="nav-icon">🚪</span>
+                <span class="nav-icon">Ys</span>
                 <span>Logout</span>
             </button>
         </div>
@@ -2371,6 +2372,65 @@ const showToast = (message, type = 'success') => {
 };
 
 // --- DATA LAYER --- //
+// Lazy-load flags: track which non-critical tables have been fetched
+const _lazyLoaded = { logs: false, checkouts: false, required: false, requests: false };
+
+// Fast login sync: only profiles, items, categories (3 calls instead of 8)
+async function syncCriticalState() {
+    try {
+        const results = await Promise.allSettled([
+            sbFetch('profiles?select=*'),
+            sbFetch('items?select=id,name,category,quantity,description,notes,location,weight,min_weight,min_quantity'),
+            sbFetch('categories?select=*&order=name.asc')
+        ]);
+        if(results[0].status === 'fulfilled' && results[0].value) DB.users = results[0].value;
+        if(results[1].status === 'fulfilled' && results[1].value) DB.items = results[1].value;
+        if(results[2].status === 'fulfilled' && results[2].value) DB.categories = results[2].value;
+    } catch(e) { console.error("Critical sync error:", e); }
+}
+
+// Lazy-load a specific view's data on first navigation
+async function syncViewData(viewId) {
+    try {
+        if ((viewId === 'logs' || viewId === 'users') && !_lazyLoaded.logs) {
+            console.log('[syncViewData] Fetching access_logs...');
+            try {
+                const res = await sbFetch('access_logs?select=*&order=timestamp.desc&limit=100');
+                console.log('[syncViewData] access_logs result:', res ? res.length + ' rows' : 'null/empty');
+                if (res) { DB.logs = res; _lazyLoaded.logs = true; }
+            } catch(logErr) {
+                console.error('[syncViewData] access_logs fetch FAILED:', logErr);
+                showToast('Failed to load access logs: ' + logErr.message, 'error');
+            }
+            // Also load users if needed
+            if (!_lazyLoaded.users) {
+                try {
+                    const uRes = await sbFetch('profiles?select=*');
+                    if (uRes) { DB.users = uRes; _lazyLoaded.users = true; }
+                } catch(e) { console.error('Users fetch error:', e); }
+            }
+        }
+        if (viewId === 'checkouts' && !_lazyLoaded.checkouts) {
+            const res = await sbFetch('checkouts?select=*&order=checked_out_at.desc&limit=200');
+            if (res) { DB.checkouts = res; buildCheckoutMap(); _lazyLoaded.checkouts = true; }
+        }
+        if (viewId === 'required' && !_lazyLoaded.required) {
+            const res = await sbFetch('required_items?select=*&order=created_at.desc');
+            if (res) { DB.required_items = res; _lazyLoaded.required = true; }
+        }
+        if (viewId === 'requests' && !_lazyLoaded.requests) {
+            const [lists, items] = await Promise.allSettled([
+                sbFetch('request_lists?select=*&order=created_at.desc'),
+                sbFetch('request_items?select=*&order=created_at.asc')
+            ]);
+            if (lists.status === 'fulfilled' && lists.value) DB.request_lists = lists.value;
+            if (items.status === 'fulfilled' && items.value) DB.request_items = items.value;
+            _lazyLoaded.requests = true;
+        }
+    } catch(e) { console.error(`View sync error (${viewId}):`, e); }
+}
+
+// Full sync: fetches everything (used after mutations)
 async function syncLocalState() {
     try {
         const results = await Promise.allSettled([
@@ -2393,6 +2453,11 @@ async function syncLocalState() {
         if(results[7].status === 'fulfilled' && results[7].value) DB.request_items = results[7].value;
         // Rebuild performance caches
         buildCheckoutMap();
+        // Mark all lazy-load flags as loaded since we fetched everything
+        _lazyLoaded.logs = true;
+        _lazyLoaded.checkouts = true;
+        _lazyLoaded.required = true;
+        _lazyLoaded.requests = true;
     } catch(e) { console.error("Database sync error:", e); }
 }
 
@@ -2498,8 +2563,8 @@ els.loginForm.addEventListener('submit', async (e) => {
         // Step 2: Cache JWT session token
         DB.session = data;
         
-        // Step 3: Sync database state
-        await syncLocalState();
+        // Step 3: Sync critical data only (profiles, items, categories) for fast login
+        await syncCriticalState();
         
         // Step 4: Check if this user already has a profile
         let validUser = DB.users.find(u => u.id === data.user.id);
@@ -2521,7 +2586,7 @@ els.loginForm.addEventListener('submit', async (e) => {
             });
             
             // Re-sync to pick up the new profile
-            await syncLocalState();
+            await syncCriticalState();
             validUser = DB.users.find(u => u.id === data.user.id);
         }
         
@@ -2530,18 +2595,36 @@ els.loginForm.addEventListener('submit', async (e) => {
             await logAccess(validUser.username, 'Login');
             initDashboard();
             showToast(`Welcome back, ${validUser.username}!`);
-            // Post-login: check for overdue items
-            setTimeout(() => {
-                const overdueItems = DB.checkouts.filter(c => !c.returned_at && new Date(c.expected_return) < new Date());
-                if (overdueItems.length > 0) showToast(`⚠️ ${overdueItems.length} item(s) are overdue!`, 'error');
-                
-                if (validUser.role === 'admin' || validUser.role === 'captain') {
-                    const pendingRequests = DB.request_lists.filter(r => r.status === 'pending');
-                    if (pendingRequests.length > 0) {
-                        setTimeout(() => showToast(`📋 ${pendingRequests.length} new request(s) waiting for review!`, 'warning'), 2000);
+            // Post-login: background-load remaining data and show alerts
+            setTimeout(async () => {
+                try {
+                    // Fetch checkouts + requests in background for notifications
+                    const [coRes, reqRes] = await Promise.allSettled([
+                        sbFetch('checkouts?select=*&order=checked_out_at.desc&limit=200'),
+                        sbFetch('request_lists?select=*&order=created_at.desc')
+                    ]);
+                    if (coRes.status === 'fulfilled' && coRes.value) {
+                        DB.checkouts = coRes.value;
+                        buildCheckoutMap();
+                        _lazyLoaded.checkouts = true;
+                        const overdueItems = DB.checkouts.filter(c => !c.returned_at && new Date(c.expected_return) < new Date());
+                        if (overdueItems.length > 0) showToast(`⚠️ ${overdueItems.length} item(s) are overdue!`, 'error');
+                        // Re-render inventory to show checkout badges
+                        if (typeof patchedRenderInventory === 'function') patchedRenderInventory();
+                        else renderInventory();
                     }
-                }
-            }, 2000);
+                    if (reqRes.status === 'fulfilled' && reqRes.value) {
+                        DB.request_lists = reqRes.value;
+                        _lazyLoaded.requests = true;
+                        if (validUser.role === 'admin' || validUser.role === 'captain') {
+                            const pendingRequests = DB.request_lists.filter(r => r.status === 'pending');
+                            if (pendingRequests.length > 0) {
+                                showToast(`⚠️ ${pendingRequests.length} new request(s) waiting for review!`, 'warning');
+                            }
+                        }
+                    }
+                } catch(e) { console.error('Background post-login sync:', e); }
+            }, 500);
         } else {
             throw new Error('Failed to create profile. Please try again.');
         }
@@ -2606,10 +2689,23 @@ const switchView = async (viewId, title) => {
     
     els.viewTitle.textContent = title;
     
+    // Lazy-load data for each view on first navigation
     if(viewId === 'users' || viewId === 'logs') {
-        await syncLocalState();
+        await syncViewData(viewId);
         if(viewId === 'users') renderUsers();
         if(viewId === 'logs') renderLogs();
+    }
+    if(viewId === 'checkouts') {
+        await syncViewData(viewId);
+        renderCheckouts();
+    }
+    if(viewId === 'required') {
+        await syncViewData(viewId);
+        renderRequired();
+    }
+    if(viewId === 'requests') {
+        await syncViewData(viewId);
+        renderRequests();
     }
     if(viewId === 'settings') {
         els.newAdminUser.value = DB.currentUser.username;
@@ -2736,7 +2832,7 @@ function buildItemCard(item) {
     ` : '';
     
     // Lazy image placeholder (loaded via IntersectionObserver)
-    const imageHtml = `<div class="item-image-placeholder lazy-img" data-item-id="${item.id}">📦</div>`;
+    const imageHtml = `<div class="item-image-placeholder lazy-img" data-item-id="${item.id}">🖼️</div>`;
     const notesHtml = item.notes ? `<div class="item-notes"><strong>Notes: </strong>${item.notes}</div>` : '';
     const locationHtml = item.location ? `<div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.4rem;">📍 ${item.location}</div>` : '';
         
@@ -2838,7 +2934,7 @@ const renderInventory = () => {
     if (filtered.length === 0) {
         els.inventoryGrid.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">📦</div>
+                <div class="empty-icon">🖼️</div>
                 <h3>No items found</h3>
                 <p>Try a different search or add a new item.</p>
             </div>
@@ -2931,7 +3027,7 @@ els.addItemBtn.addEventListener('click', () => {
     els.itemImageBase64.value = '';
     document.getElementById('item-min-quantity').value = '';
     els.imagePreview.style.backgroundImage = 'none';
-    els.imagePreview.innerHTML = '<span class="icon" style="font-size: 2rem;">📸</span><p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>';
+    els.imagePreview.innerHTML = '<span class="icon" style="font-size: 2rem;">🖼️</span><p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>';
     // Show/hide fields based on default category
     const defaultCat = els.itemCatInput.value;
     const isChemical = defaultCat === 'Chemicals';
@@ -3057,7 +3153,7 @@ window.editItem = async (id) => {
         els.imagePreview.innerHTML = '';
     } else {
         els.imagePreview.style.backgroundImage = 'none';
-        els.imagePreview.innerHTML = '<span class="icon" style="font-size: 2rem;">📸</span><p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>';
+        els.imagePreview.innerHTML = '<span class="icon" style="font-size: 2rem;">🖼️</span><p style="margin-top: 0.5rem; font-size: 0.875rem;">Upload Picture</p>';
     }
     
     els.itemModalTitle.textContent = 'Edit Item';
@@ -3292,7 +3388,7 @@ const renderCheckouts = () => {
     else filtered = [...active, ...returned.slice(0, 20)];
     
     if (filtered.length === 0) {
-        grid.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><h3>No checkouts found</h3><p>Nothing matches this filter.</p></div>`;
+        grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🖼️</div><h3>No checkouts found</h3><p>Nothing matches this filter.</p></div>`;
         return;
     }
     
@@ -3329,7 +3425,7 @@ const renderCheckouts = () => {
         const cardClass = isOverdue ? 'overdue-card' : isConsumed ? 'consumed-card' : !isActive ? 'returned-card' : '';
         
         // Initials
-        const initials = (co.checked_out_by || '??').substring(0, 2).toUpperCase();
+        const initials = (co.checked_out_by || '?').substring(0, 2).toUpperCase();
         
         const card = document.createElement('div');
         card.className = `co-card ${cardClass}`;
@@ -3338,12 +3434,12 @@ const renderCheckouts = () => {
             <div class="co-card-body">
                 <div class="co-card-top">
                     <span class="co-item-name">${sanitize(co.item_name)}</span>
-                    <span class="co-qty-badge">×${co.quantity || 1}</span>
+                    <span class="co-qty-badge">🔢${co.quantity || 1}</span>
                 </div>
                 <div class="co-card-meta">
                     <span>👤 ${sanitize(co.checked_out_by)}</span>
                     <span>📅 ${checkedOutDate.toLocaleDateString()}</span>
-                    <span>🏠 Due ${due.toLocaleDateString()}</span>
+                    <span>⏰ Due ${due.toLocaleDateString()}</span>
                     ${co.notes ? `<span>📝 ${sanitize(co.notes).substring(0,30)}${co.notes.length>30?'...':''}</span>` : ''}
                 </div>
             </div>
@@ -3475,14 +3571,14 @@ window.exportInventoryCSV = () => {
     `;
     const rows = DB.items.map(item => {
         const status = DB.checkouts.find(c => c.item_id === item.id && !c.returned_at) ? 'Checked Out' : 'Available';
-        return `<tr><td>${sanitize(item.name)}</td><td>${sanitize(item.category)}</td><td>${item.quantity}</td><td>${sanitize(item.location||'—')}</td><td class="${status==='Available'?'avail':'out'}">${status}</td><td>${sanitize(item.description||'—')}</td></tr>`;
+        return `<tr><td>${sanitize(item.name)}</td><td>${sanitize(item.category)}</td><td>${item.quantity}</td><td>${sanitize(item.location||'N/A')}</td><td class="${status==='Available'?'avail':'out'}">${status}</td><td>${sanitize(item.description||'N/A')}</td></tr>`;
     }).join('');
     const w = window.open('','_blank');
     w.document.write(`<html><head><title>Inventory Report</title><style>${pdfStyles}</style></head><body>
         <h1>📋 Cygnus Inventory Report</h1>
         <div class="meta"><strong>${DB.items.length} items</strong> &nbsp;|&nbsp; Generated: ${new Date().toLocaleString()}</div>
         <table><thead><tr><th>Name</th><th>Category</th><th>Qty</th><th>Location</th><th>Status</th><th>Description</th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="footer">Generated by Cygnus Inventory • ${new Date().toLocaleString()}</div>
+        <div class="footer">Generated by Cygnus Inventory © ${new Date().toLocaleString()}</div>
     </body></html>`);
     w.document.close();
     setTimeout(() => w.print(), 500);
@@ -3502,10 +3598,10 @@ window.exportLogsPDF = window.exportLogsCSV = () => {
     const rows = DB.logs.map(log => `<tr><td>${new Date(log.timestamp).toLocaleString()}</td><td>${sanitize(log.username)}</td><td>${sanitize(log.action||'')}</td></tr>`).join('');
     const w = window.open('','_blank');
     w.document.write(`<html><head><title>Access Logs</title><style>${pdfStyles}</style></head><body>
-        <h1>📜 Access Logs Report</h1>
+        <h1>📜 Access Report</h1>
         <div class="meta"><strong>${DB.logs.length} entries</strong> &nbsp;|&nbsp; Generated: ${new Date().toLocaleString()}</div>
         <table><thead><tr><th>Timestamp</th><th>Username</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="footer">Generated by Cygnus Inventory • ${new Date().toLocaleString()}</div>
+        <div class="footer">Generated by Cygnus Inventory © ${new Date().toLocaleString()}</div>
     </body></html>`);
     w.document.close();
     setTimeout(() => w.print(), 500);
@@ -3536,7 +3632,7 @@ window.exportCheckoutsPDF = () => {
         <h1>📤 Equipment Checkouts Report</h1>
         <div class="meta"><strong>${DB.checkouts.length} records</strong> &nbsp;|&nbsp; Active: ${DB.checkouts.filter(c=>!c.returned_at).length} &nbsp;|&nbsp; Generated: ${new Date().toLocaleString()}</div>
         <table><thead><tr><th>Item</th><th>Qty</th><th>Checked Out By</th><th>Date</th><th>Due</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="footer">Generated by Cygnus Inventory • ${new Date().toLocaleString()}</div>
+        <div class="footer">Generated by Cygnus Inventory © ${new Date().toLocaleString()}</div>
     </body></html>`);
     w.document.close();
     setTimeout(() => w.print(), 500);
@@ -3552,7 +3648,7 @@ document.querySelectorAll('#checkout-modal .close-modal').forEach(btn => {
 const origSwitchView = switchView;
 const enhancedSwitchView = async (viewId, title) => {
     await origSwitchView(viewId, title);
-    if (viewId === 'checkouts') renderCheckouts();
+    if (viewId === 'checkouts') { await syncViewData('checkouts'); renderCheckouts(); }
     if (viewId === 'settings') renderCategoryList();
 };
 // Rebind nav items to use enhanced switchView
@@ -3643,7 +3739,7 @@ function getWeightDisplay(item) {
     if (item.category !== 'Chemicals' || item.weight == null) return '';
     const pct = item.min_weight ? Math.min((item.weight / item.min_weight) * 100, 100) : 100;
     const cls = pct > 50 ? 'ok' : pct > 25 ? 'warn' : 'danger';
-    return `<div class="weight-display">⚗️ ${item.weight}g${item.min_weight ? ' / min ' + item.min_weight + 'g' : ''}
+    return `<div class="weight-display">s?✏️ ${item.weight}g${item.min_weight ? ' / min ' + item.min_weight + 'g' : ''}
         <div class="weight-bar"><div class="weight-fill ${cls}" style="width:${pct}%"></div></div>
     </div>`;
 }
@@ -3682,9 +3778,9 @@ window.openDetailModal = async (id) => {
     
     let historyHtml = '';
     if (history.length > 0) {
-        historyHtml = '<div class="detail-history"><h4>📋 Checkout History</h4>';
+        historyHtml = '<div class="detail-history"><h4>📅 Checkout History</h4>';
         history.forEach(h => {
-            const status = h.returned_at ? '✅ Returned' : (new Date(h.expected_return) < new Date() ? '⚠️ Overdue' : '📤 Active');
+            const status = h.returned_at ? '✅ Returned' : (new Date(h.expected_return) < new Date() ? '⚠️ Overdue' : '⏰ Active');
             historyHtml += `<div style="font-size:0.8rem;padding:0.3rem 0;color:var(--text-secondary);border-bottom:1px solid var(--border-glass);">${sanitize(h.checked_out_by)} — ${status} — ${new Date(h.checked_out_at).toLocaleDateString()}</div>`;
         });
         historyHtml += '</div>';
@@ -3705,7 +3801,7 @@ window.openDetailModal = async (id) => {
         <div class="detail-grid">
             <div class="detail-field"><span class="detail-label">Category</span><span class="detail-value">${sanitize(item.category)}</span></div>
             <div class="detail-field"><span class="detail-label">Quantity</span><span class="detail-value">${item.quantity}${item.category !== 'Chemicals' && item.min_quantity != null ? ' <span style="font-size:0.75rem;color:var(--warning);">(min: ' + item.min_quantity + ')</span>' : ''}</span></div>
-            <div class="detail-field"><span class="detail-label">Location</span><span class="detail-value">${sanitize(item.location) || '—'}</span></div>
+            <div class="detail-field"><span class="detail-label">Location</span><span class="detail-value">${sanitize(item.location) || 'N/A'}</span></div>
             ${item.category === 'Chemicals' && item.weight != null ? `<div class="detail-field"><span class="detail-label">Weight</span><span class="detail-value">${item.weight}g${item.min_weight ? ' (min: ' + item.min_weight + 'g)' : ''}</span></div>` : ''}
         </div>
         ${weightHtml}
@@ -3755,7 +3851,7 @@ function renderRequired() {
             <td data-label="Qty">${r.quantity}</td>
             <td data-label="Priority"><span class="priority-badge ${r.priority}">${priorityIcons[r.priority] || ''} ${r.priority}</span></td>
             <td data-label="By">${sanitize(r.requested_by)}</td>
-            <td data-label="Notes">${sanitize(r.notes) || '—'}</td>
+            <td data-label="Notes">${sanitize(r.notes) || 'N/A'}</td>
             <td data-label="Status"><span class="status-badge ${isPurchased ? '' : 'checked-out'}">${isPurchased ? '✅ Purchased' : '⏳ Pending'}</span></td>
             <td data-label="Actions">${actionBtns}</td>
         `;
@@ -3839,14 +3935,14 @@ window.exportRequiredPDF = window.exportRequiredCSV = () => {
     `;
     const rows = DB.required_items.map(r => {
         const priorityIcons = { high: '🔴', medium: '🟡', low: '🟢' };
-        return `<tr><td>${sanitize(r.name)}</td><td>${r.quantity}</td><td class="${r.priority}">${priorityIcons[r.priority]||''} ${r.priority}</td><td>${sanitize(r.requested_by)}</td><td>${sanitize(r.notes||'—')}</td><td>${r.approx_price ? '₹'+r.approx_price : '—'}</td><td class="${r.purchased?'purchased':'pending-status'}">${r.purchased ? '✅ Purchased' : '⏳ Pending'}</td></tr>`;
+        return `<tr><td>${sanitize(r.name)}</td><td>${r.quantity}</td><td class="${r.priority}">${priorityIcons[r.priority]||''} ${r.priority}</td><td>${sanitize(r.requested_by)}</td><td>${sanitize(r.notes||'N/A')}</td><td>${r.approx_price ? '₹'+r.approx_price : 'N/A'}</td><td class="${r.purchased?'purchased':'pending-status'}">${r.purchased ? '✅ Purchased' : '⏳ Pending'}</td></tr>`;
     }).join('');
     const w = window.open('','_blank');
     w.document.write(`<html><head><title>Buy List</title><style>${pdfStyles}</style></head><body>
         <h1>🛒 Items Required (Buy List)</h1>
         <div class="meta"><strong>${DB.required_items.length} items</strong> &nbsp;|&nbsp; Pending: ${DB.required_items.filter(r=>!r.purchased).length} &nbsp;|&nbsp; Generated: ${new Date().toLocaleString()}</div>
         <table><thead><tr><th>Item</th><th>Qty</th><th>Priority</th><th>Requested By</th><th>Notes</th><th>Price</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="footer">Generated by Cygnus Inventory • ${new Date().toLocaleString()}</div>
+        <div class="footer">Generated by Cygnus Inventory © ${new Date().toLocaleString()}</div>
     </body></html>`);
     w.document.close();
     setTimeout(() => w.print(), 500);
@@ -3867,8 +3963,8 @@ const viewTitles = { inventory:'Inventory Overview', checkouts:'Equipment Checko
 const prevEnhancedSwitchView = enhancedSwitchView;
 const finalSwitchView = async (viewId, title) => {
     await prevEnhancedSwitchView(viewId, title);
-    if (viewId === 'required') renderRequired();
-    if (viewId === 'requests') { await syncLocalState(); renderRequests(); }
+    if (viewId === 'required') { await syncViewData('required'); renderRequired(); }
+    if (viewId === 'requests') { await syncViewData('requests'); renderRequests(); }
     if (viewId === 'inventory') patchedRenderInventory();
 };
 
@@ -3945,7 +4041,7 @@ function renderRequests() {
     if (newReqBtn) newReqBtn.style.display = canCreateRequest() ? '' : 'none';
     
     if (filtered.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-icon">📑</div><h3>No requests found</h3><p>${canCreateRequest() ? 'Create a new request to get started.' : 'No requests to display.'}</p></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><h3>No requests found</h3><p>${canCreateRequest() ? 'Create a new request to get started.' : 'No requests to display.'}</p></div>`;
         return;
     }
     
@@ -3968,7 +4064,7 @@ function renderRequests() {
                 ${req.status === 'reviewed' ? `<span class="request-summary-badges">✅${approvedCount} ❌${rejectedCount}</span>` : ''}
             </div>
             <div class="request-card-items">
-                ${items.slice(0, 5).map(i => `<span class="request-card-item-chip">${i.source === 'inventory' ? '● In Stock' : '○ To Buy'} — ${sanitize(i.item_name)} ×${i.quantity}</span>`).join('')}
+                ${items.slice(0, 5).map(i => `<span class="request-card-item-chip">${i.source === 'inventory' ? '📦 In Stock' : '🛒 To Buy'} — ${sanitize(i.item_name)} 🔢${i.quantity}</span>`).join('')}
                 ${items.length > 5 ? `<span class="request-card-item-chip">+${items.length - 5} more</span>` : ''}
             </div>
             <div class="request-card-actions">
@@ -4029,11 +4125,17 @@ searchInput?.addEventListener('input', () => {
     matches.forEach(item => {
         const div = document.createElement('div');
         div.className = 'search-dropdown-item';
-        div.innerHTML = `<span>● In Stock — ${sanitize(item.name)}</span><span class="stock-info">Qty: ${item.quantity}</span>`;
+        div.innerHTML = `<span>📦 In Stock — ${sanitize(item.name)}</span><span class="stock-info">Qty: ${item.quantity}</span>`;
         div.addEventListener('click', () => {
             searchInput.value = item.name;
             searchInput.dataset.selectedId = item.id;
             searchInput.dataset.selectedSource = 'inventory';
+            searchInput.dataset.selectedCategory = item.category;
+            if (item.category === 'Chemicals') {
+                document.getElementById('request-item-weight').classList.remove('hidden');
+            } else {
+                document.getElementById('request-item-weight').classList.add('hidden');
+            }
             dropdown.classList.add('hidden');
         });
         dropdown.appendChild(div);
@@ -4042,11 +4144,13 @@ searchInput?.addEventListener('input', () => {
     // Add "new purchase item" option
     const addNew = document.createElement('div');
     addNew.className = 'search-dropdown-item';
-    addNew.innerHTML = `<span>○ To Buy — Add "${sanitize(term)}" as purchase item</span>`;
+    addNew.innerHTML = `<span>?✅ To Buy — Add "${sanitize(term)}" as purchase item</span>`;
     addNew.addEventListener('click', () => {
         searchInput.value = term;
         searchInput.dataset.selectedId = '';
         searchInput.dataset.selectedSource = 'purchase';
+        searchInput.dataset.selectedCategory = '';
+        document.getElementById('request-item-weight').classList.add('hidden');
         dropdown.classList.add('hidden');
     });
     dropdown.appendChild(addNew);
@@ -4063,6 +4167,8 @@ document.getElementById('add-request-item-btn')?.addEventListener('click', () =>
     const name = searchInput.value.trim();
     if (!name) return;
     const qty = parseInt(document.getElementById('request-item-qty').value, 10) || 1;
+    const wVal = document.getElementById('request-item-weight').value;
+    const weight = searchInput.dataset.selectedCategory === 'Chemicals' && wVal ? parseFloat(wVal) : null;
     const source = searchInput.dataset.selectedSource || 'purchase';
     const itemId = searchInput.dataset.selectedId || null;
     
@@ -4070,13 +4176,17 @@ document.getElementById('add-request-item-btn')?.addEventListener('click', () =>
         source,
         item_id: itemId || null,
         item_name: name,
-        quantity: qty
+        quantity: qty,
+        weight: weight
     });
     
     searchInput.value = '';
     searchInput.dataset.selectedId = '';
     searchInput.dataset.selectedSource = '';
+    searchInput.dataset.selectedCategory = '';
     document.getElementById('request-item-qty').value = 1;
+    document.getElementById('request-item-weight').value = '';
+    document.getElementById('request-item-weight').classList.add('hidden');
     renderRequestItemsList();
 });
 
@@ -4089,13 +4199,14 @@ function renderRequestItemsList() {
         return;
     }
     currentRequestItems.forEach((item, idx) => {
+        const weightStr = item.weight ? ` <span style="color:var(--warning);font-size:0.75rem;">(${item.weight}g)</span>` : '';
         const row = document.createElement('div');
         row.className = 'request-item-row';
         row.innerHTML = `
-            <span class="item-source-icon">${item.source === 'inventory' ? '● In Stock' : '○ To Buy'}</span>
-            <span class="item-info">${sanitize(item.item_name)}</span>
-            <span class="item-qty">×${item.quantity}</span>
-            <button class="remove-item" onclick="removeRequestItem(${idx})">✕</button>
+            <span class="item-source-icon">${item.source === 'inventory' ? '📦 In Stock' : '🛒 To Buy'}</span>
+            <span class="item-info">${sanitize(item.item_name)}${weightStr}</span>
+            <span class="item-qty">🔢${item.quantity}</span>
+            <button class="remove-item" onclick="removeRequestItem(${idx})">❌</button>
         `;
         container.appendChild(row);
     });
@@ -4157,7 +4268,8 @@ async function saveRequest(status) {
                     source: item.source,
                     item_id: item.item_id,
                     item_name: item.item_name,
-                    quantity: item.quantity
+                    quantity: item.quantity,
+                    weight: item.weight
                 })
             });
         }
@@ -4166,7 +4278,7 @@ async function saveRequest(status) {
         await syncLocalState();
         renderRequests();
         document.getElementById('request-modal').classList.add('hidden');
-        showToast(status === 'pending' ? 'Request submitted for approval! 📤' : 'Draft saved ✏️');
+        showToast(status === 'pending' ? 'Request submitted for approval! 📦' : 'Draft saved ✏️');
     } catch(err) {
         console.error(err);
         showToast('Failed to save request', 'error');
@@ -4182,7 +4294,7 @@ window.editRequest = async (id) => {
     document.getElementById('request-modal-title').textContent = 'Edit Request';
     currentRequestItems = DB.request_items
         .filter(ri => ri.request_id === id)
-        .map(ri => ({ source: ri.source, item_id: ri.item_id, item_name: ri.item_name, quantity: ri.quantity }));
+        .map(ri => ({ source: ri.source, item_id: ri.item_id, item_name: ri.item_name, quantity: ri.quantity, weight: ri.weight }));
     renderRequestItemsList();
     document.getElementById('request-modal').classList.remove('hidden');
 };
@@ -4198,7 +4310,7 @@ window.submitRequest = async (id) => {
         await logAccess(DB.currentUser.username, 'Submitted request for approval');
         await syncLocalState();
         renderRequests();
-        showToast('Request submitted for approval! 📤');
+        showToast('Request submitted for approval! 📦');
     } catch(e) { showToast('Failed to submit', 'error'); }
 };
 
@@ -4242,18 +4354,22 @@ window.openReviewModal = (reqId) => {
         let stockWarning = '';
         if (item.source === 'inventory' && item.item_id) {
             const invItem = DB.items.find(i => i.id === item.item_id);
-            if (invItem && invItem.quantity < item.quantity) {
+            if (invItem && invItem.category !== 'Chemicals' && invItem.quantity < item.quantity) {
                 const deficit = item.quantity - invItem.quantity;
                 stockWarning = `<span class="review-item-stock-warning">⚠️ Only ${invItem.quantity}/${item.quantity} in stock — ${deficit} will go to buy list</span>`;
+            } else if (invItem && invItem.category === 'Chemicals' && item.weight && invItem.weight < item.weight) {
+                const deficit = item.weight - invItem.weight;
+                stockWarning = `<span class="review-item-stock-warning">⚠️ Only ${invItem.weight}g/${item.weight}g in stock — ${deficit}g deficit</span>`;
             }
         }
         
+        const weightStr = item.weight ? ` <span style="color:var(--warning);font-size:0.75rem;">(${item.weight}g requested)</span>` : '';
         const div = document.createElement('div');
         div.className = 'review-item';
         div.id = `review-item-${item.id}`;
         div.innerHTML = `
             <div class="review-item-header">
-                <span class="review-item-name">${item.source === 'inventory' ? '● In Stock' : '○ To Buy'} — ${sanitize(item.item_name)} <span style="color:var(--accent-primary)">×${item.quantity}</span></span>
+                <span class="review-item-name">${item.source === 'inventory' ? '📦 In Stock' : '🛒 To Buy'} — ${sanitize(item.item_name)}${weightStr} <span style="color:var(--accent-primary)">🔢${item.quantity}</span></span>
                 ${stockWarning}
             </div>
             <div class="review-item-actions">
@@ -4376,133 +4492,194 @@ window.exportRequestPDF = (reqId) => {
     const approvedCount = items.filter(i => i.status === 'approved').length;
     const rejectedCount = items.filter(i => i.status === 'rejected').length;
     const totalCost = items.reduce((sum, i) => sum + (i.approx_price || 0), 0);
-    
+    const refCode = 'REF-' + req.id.substring(0,8).toUpperCase();
+    const genDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    const reqDate = new Date(req.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
     const pdfStyles = `
+        @page { margin: 12mm 14mm; size: A4; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', Arial, Helvetica, sans-serif; padding: 2.5rem; color: #1e293b; line-height: 1.5; }
-        .header { border-bottom: 3px solid #1e293b; padding-bottom: 1rem; margin-bottom: 1.5rem; }
-        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
-        .org-name { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: #64748b; font-weight: 600; }
-        .doc-type { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: white; background: #1e293b; padding: 0.2rem 0.6rem; border-radius: 3px; font-weight: 600; }
-        .title { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0.5rem 0; }
-        .meta-row { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.8rem; color: #64748b; }
-        .meta-row strong { color: #334155; }
-        .status-pill { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .status-pill.reviewed { background: #dcfce7; color: #166534; }
-        .status-pill.pending { background: #fef9c3; color: #854d0e; }
-        .status-pill.draft { background: #e2e8f0; color: #475569; }
-        .summary-bar { display: flex; gap: 1.5rem; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; font-size: 0.8rem; }
-        .summary-stat { display: flex; align-items: center; gap: 0.3rem; }
-        .summary-stat .num { font-weight: 700; font-size: 1rem; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.8rem; }
-        th { background: #f1f5f9; font-weight: 600; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em; color: #475569; padding: 0.6rem 0.7rem; text-align: left; border-bottom: 2px solid #cbd5e1; }
-        td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; color: #1e293b; line-height: 1.45; font-size: 11px; }
+        .page { max-width: 780px; margin: 0 auto; position: relative; }
+
+        .top-accent { height: 4px; background: linear-gradient(90deg, #1e40af, #7c3aed, #2563eb); border-radius: 0 0 4px 4px; margin-bottom: 1.2rem; }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 1rem; border-bottom: 1.5px solid #cbd5e1; margin-bottom: 1.2rem; }
+        .brand { display: flex; flex-direction: column; }
+        .brand-name { font-size: 1.6rem; font-weight: 900; letter-spacing: 0.12em; color: #0f172a; line-height: 1; }
+        .brand-dot { color: #2563eb; }
+        .brand-sub { font-size: 0.5rem; font-weight: 700; color: #64748b; letter-spacing: 0.25em; text-transform: uppercase; margin-top: 0.25rem; }
+        .doc-badge { display: inline-block; background: #1e40af; color: white; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.12em; padding: 0.25rem 0.6rem; border-radius: 3px; margin-top: 0.5rem; }
+        .meta-col { text-align: right; font-size: 0.7rem; color: #64748b; line-height: 1.6; }
+        .meta-col strong { color: #334155; font-weight: 700; }
+        .meta-ref { font-family: 'Courier New', monospace; font-size: 0.75rem; color: #1e40af; font-weight: 700; }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.8rem; margin-bottom: 1.2rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem 1.2rem; }
+        .info-cell { display: flex; flex-direction: column; }
+        .info-label { font-size: 0.55rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+        .info-value { font-size: 0.85rem; font-weight: 600; color: #0f172a; }
+        .status-pill { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+        .status-pill.reviewed { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+        .status-pill.pending { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+        .status-pill.draft { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+
+        .stats { display: flex; gap: 0.6rem; margin-bottom: 1.2rem; }
+        .stat { flex: 1; background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.6rem 0.8rem; text-align: center; }
+        .stat-num { font-size: 1.4rem; font-weight: 900; line-height: 1; }
+        .stat-lbl { font-size: 0.5rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+        .tbl-wrap { border: 1.5px solid #cbd5e1; border-radius: 6px; overflow: hidden; margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        thead { background: #0f172a; }
+        th { color: #e2e8f0; font-weight: 700; padding: 0.55rem 0.6rem; text-align: left; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; }
+        th:first-child { text-align: center; width: 30px; }
+        td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
         tr:nth-child(even) { background: #f8fafc; }
-        .approved-text { color: #16a34a; font-weight: 600; }
-        .rejected-text { color: #dc2626; font-weight: 600; }
-        .pending-text { color: #d97706; font-weight: 600; }
-        .price { font-weight: 600; color: #7c3aed; }
-        .rejection-note { font-size: 0.7rem; color: #dc2626; font-style: italic; margin-top: 0.2rem; }
-        .sno { color: #94a3b8; font-weight: 500; }
-        .captain-notes { background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin-bottom: 2rem; }
-        .captain-notes h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #3b82f6; margin-bottom: 0.3rem; }
-        .captain-notes p { font-size: 0.85rem; color: #1e40af; line-height: 1.5; }
-        .forwarded-section { margin-bottom: 2rem; padding: 0.75rem 1rem; border: 1px solid #e2e8f0; border-radius: 6px; }
-        .forwarded-section label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; display: block; margin-bottom: 0.5rem; }
-        .forwarded-line { border-bottom: 1px dashed #94a3b8; height: 1.5rem; width: 100%; }
-        .signatures { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; }
-        .sig-block { text-align: center; }
-        .sig-line { border-bottom: 1.5px solid #334155; height: 50px; margin-bottom: 0.5rem; }
-        .sig-title { font-weight: 700; font-size: 0.85rem; color: #0f172a; margin-bottom: 0.2rem; }
-        .sig-name { font-size: 0.7rem; color: #94a3b8; font-style: italic; margin-bottom: 0.4rem; }
-        .sig-date { font-size: 0.7rem; color: #64748b; }
-        .sig-date-line { display: inline-block; border-bottom: 1px dashed #94a3b8; width: 80px; }
-        .footer { margin-top: 3rem; display: flex; justify-content: space-between; font-size: 0.65rem; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 0.75rem; }
-        @media print { body { padding: 1.5rem; } }
+        .sno { color: #94a3b8; font-weight: 700; text-align: center; font-size: 0.7rem; }
+        .item-name { font-weight: 700; color: #0f172a; }
+        .badge { display: inline-block; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.55rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+        .badge-stock { background: #dbeafe; color: #1d4ed8; }
+        .badge-buy { background: #fae8ff; color: #a21caf; }
+        .approved { color: #15803d; font-weight: 700; background: #dcfce7; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.6rem; }
+        .rejected { color: #dc2626; font-weight: 700; background: #fee2e2; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.6rem; }
+        .pending-s { color: #b45309; font-weight: 700; background: #fef3c7; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.6rem; }
+        .price { font-weight: 700; color: #7c3aed; }
+        .rej-note { font-size: 0.6rem; color: #dc2626; font-style: italic; margin-top: 0.2rem; display: block; }
+
+        .notes-section { margin-bottom: 1.5rem; }
+        .section-title { font-size: 0.65rem; font-weight: 900; color: #1e40af; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; border-bottom: 2px solid #bfdbfe; padding-bottom: 0.4rem; }
+        .notes-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 1rem 1.2rem; min-height: 70px; }
+        .notes-content { font-size: 0.8rem; color: #1e3a8a; line-height: 1.6; }
+        .notes-line { border-bottom: 1px dashed #93c5fd; height: 1.8rem; }
+
+        .fwd-section { display: flex; align-items: flex-end; gap: 0.8rem; margin-bottom: 1.8rem; }
+        .fwd-label { font-size: 0.7rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+        .fwd-line { flex: 1; border-bottom: 1.5px dashed #94a3b8; margin-bottom: 2px; }
+
+        .sig-section { page-break-inside: avoid; margin-top: 1rem; }
+        .sig-section-title { font-size: 0.65rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.12em; border-bottom: 2px solid #cbd5e1; padding-bottom: 0.4rem; margin-bottom: 1.2rem; }
+        .sig-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem 2rem; }
+        .sig-card { border: 1px solid #e2e8f0; border-radius: 6px; padding: 0 1rem 0.8rem; text-align: center; background: #fafbfc; }
+        .sig-space { height: 50px; border-bottom: 1.5px solid #64748b; margin-bottom: 0.5rem; }
+        .sig-role { font-weight: 900; font-size: 0.7rem; color: #0f172a; text-transform: uppercase; letter-spacing: 0.06em; }
+        .sig-hint { font-size: 0.55rem; color: #94a3b8; font-style: italic; margin-top: 0.15rem; }
+
+        .doc-footer { margin-top: 2rem; text-align: center; font-size: 0.55rem; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 0.8rem; }
+        @media print { body { padding: 0; } .page { max-width: 100%; } .top-accent { display: none; } }
     `;
-    
-    const itemRows = items.map((i, idx) => {
-        let statusHtml, remarksHtml;
+
+    // Build table rows
+    const rows = items.map((i, idx) => {
+        let statusHtml;
         if (isReviewed) {
-            statusHtml = i.status === 'approved' ? '<span class="approved-text">\u2713 Approved</span>' : i.status === 'rejected' ? '<span class="rejected-text">\u2717 Rejected</span>' : '<span class="pending-text">Pending</span>';
-            remarksHtml = i.rejection_reason ? `<span class="rejection-note">${sanitize(i.rejection_reason)}</span>` : (i.source === 'inventory' ? 'From inventory' : 'Purchase required');
+            statusHtml = i.status === 'approved' ? '<span class="approved">&#x2713; Approved</span>'
+                       : i.status === 'rejected' ? '<span class="rejected">&#x2717; Rejected</span>'
+                       : '<span class="pending-s">Pending</span>';
         } else {
-            statusHtml = '<span class="pending-text">Pending Review</span>';
-            remarksHtml = i.source === 'inventory' ? 'From inventory' : 'Purchase required';
+            statusHtml = '<span class="pending-s">Pending</span>';
         }
+        const typeBadge = i.source === 'inventory' ? '<span class="badge badge-stock">Stock</span>' : '<span class="badge badge-buy">Buy</span>';
+        const remarksHtml = i.rejection_reason ? `${i.source === 'inventory' ? 'Inventory' : 'Purchase'}<span class="rej-note">${sanitize(i.rejection_reason)}</span>` : (i.source === 'inventory' ? 'From inventory' : 'Purchase required');
         return `<tr>
             <td class="sno">${idx + 1}</td>
-            <td>${i.source === 'inventory' ? '● In Stock' : '○ To Buy'}</td>
-            <td>${sanitize(i.item_name)}</td>
-            <td>${i.quantity}</td>
+            <td>${typeBadge}</td>
+            <td class="item-name">${sanitize(i.item_name)}</td>
+            <td style="font-weight:700;text-align:center">${i.quantity}</td>
+            <td>${i.weight ? i.weight + 'g' : '&mdash;'}</td>
             <td>${statusHtml}</td>
-            <td>${i.approx_price ? '<span class="price">\u20b9' + i.approx_price + '</span>' : '\u2014'}</td>
-            <td>${remarksHtml}</td>
+            <td>${i.approx_price ? '<span class="price">&#x20B9;' + Number(i.approx_price).toLocaleString('en-IN') + '</span>' : '&mdash;'}</td>
+            <td style="color:#64748b;font-size:0.65rem">${remarksHtml}</td>
         </tr>`;
     }).join('');
-    
-    const summaryHtml = `<div class="summary-bar">
-        <div class="summary-stat"><span class="num" style="color:#3b82f6">${items.length}</span> Items Total</div>
-        ${isReviewed ? `<div class="summary-stat"><span class="num" style="color:#16a34a">${approvedCount}</span> Approved</div>
-        <div class="summary-stat"><span class="num" style="color:#dc2626">${rejectedCount}</span> Rejected</div>` : ''}
-        ${totalCost > 0 ? `<div class="summary-stat"><span class="num" style="color:#7c3aed">\u20b9${totalCost.toLocaleString()}</span> Est. Cost</div>` : ''}
-    </div>`;
-    
-    const captainNotesHtml = req.captain_notes ? `<div class="captain-notes">
-        <h4>Captain\'s Notes</h4>
-        <p>${sanitize(req.captain_notes)}</p>
-    </div>` : '';
-    
+
+    // Stats
+    let statsHtml = '<div class="stats">';
+    statsHtml += `<div class="stat"><div class="stat-num" style="color:#2563eb">${items.length}</div><div class="stat-lbl">Total Items</div></div>`;
+    if (isReviewed) {
+        statsHtml += `<div class="stat"><div class="stat-num" style="color:#15803d">${approvedCount}</div><div class="stat-lbl">Approved</div></div>`;
+        statsHtml += `<div class="stat"><div class="stat-num" style="color:#dc2626">${rejectedCount}</div><div class="stat-lbl">Rejected</div></div>`;
+    }
+    if (totalCost > 0) {
+        statsHtml += `<div class="stat"><div class="stat-num" style="color:#7c3aed">&#x20B9;${totalCost.toLocaleString('en-IN')}</div><div class="stat-lbl">Est. Cost</div></div>`;
+    }
+    statsHtml += '</div>';
+
+    // Captain notes
+    let notesHtml;
+    if (req.captain_notes) {
+        notesHtml = `<div class="notes-section"><div class="section-title">&#x1F4DD; Captain's Notes</div><div class="notes-box"><div class="notes-content">${sanitize(req.captain_notes)}</div></div></div>`;
+    } else {
+        notesHtml = `<div class="notes-section"><div class="section-title">&#x1F4DD; Captain's Notes</div><div class="notes-box"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div></div>`;
+    }
+
+    // Status pill class
+    const pillClass = req.status === 'reviewed' ? 'reviewed' : req.status === 'pending' ? 'pending' : 'draft';
+
     const w = window.open('', '_blank');
     w.document.write(`<html><head><title>Request: ${sanitize(req.title)}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
         <style>${pdfStyles}</style></head><body>
-        <div class="header">
-            <div class="header-top">
-                <span class="org-name">Cygnus \u2014 Inventory Management</span>
-                <span class="doc-type">Item Request Form</span>
+        <div class="top-accent"></div>
+        <div class="page">
+            <div class="header">
+                <div class="brand">
+                    <div class="brand-name">CYGNUS<span class="brand-dot">.</span></div>
+                    <div class="brand-sub">Inventory Logistics System</div>
+                    <div class="doc-badge">ITEM REQUEST FORM</div>
+                </div>
+                <div class="meta-col">
+                    <div class="meta-ref">${refCode}</div>
+                    <div><strong>Generated:</strong> ${genDate}</div>
+                    <div><strong>Request Date:</strong> ${reqDate}</div>
+                </div>
             </div>
-            <h1 class="title">${sanitize(req.title)}</h1>
-            <div class="meta-row">
-                <span><strong>Status:</strong> <span class="status-pill ${req.status}">${req.status.toUpperCase()}</span></span>
-                <span><strong>Requested by:</strong> ${sanitize(req.requested_by)}</span>
-                <span><strong>Date:</strong> ${new Date(req.created_at).toLocaleDateString()}</span>
-                ${req.reviewed_by ? `<span><strong>Reviewed by:</strong> ${sanitize(req.reviewed_by)} on ${new Date(req.reviewed_at).toLocaleDateString()}</span>` : ''}
+
+            <div class="info-grid">
+                <div class="info-cell">
+                    <div class="info-label">Request Title</div>
+                    <div class="info-value">${sanitize(req.title)}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-label">Requested By</div>
+                    <div class="info-value">${sanitize(req.requested_by)}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-label">Reviewed By</div>
+                    <div class="info-value">${req.reviewed_by ? sanitize(req.reviewed_by) : '&mdash;'}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="info-label">Status</div>
+                    <div><span class="status-pill ${pillClass}">${req.status.toUpperCase()}</span></div>
+                </div>
             </div>
-        </div>
-        ${summaryHtml}
-        <table>
-            <thead><tr><th>#</th><th>Type</th><th>Item Name</th><th>Qty</th><th>Status</th><th>Price</th><th>Remarks</th></tr></thead>
-            <tbody>${itemRows}</tbody>
-        </table>
-        ${captainNotesHtml}
-        <div class="forwarded-section">
-            <label>Forwarded To</label>
-            <div class="forwarded-line"></div>
-        </div>
-        <div class="signatures">
-            <div class="sig-block">
-                <div class="sig-line"></div>
-                <div class="sig-title">Captain</div>
-                <div class="sig-name">(Name & Signature)</div>
-                <div class="sig-date">Date: <span class="sig-date-line"></span></div>
+
+            ${statsHtml}
+
+            <div class="tbl-wrap">
+                <table>
+                    <thead><tr><th>#</th><th>Type</th><th>Item Name</th><th style="text-align:center">Qty</th><th>Weight</th><th>Status</th><th>Price</th><th>Remarks</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
             </div>
-            <div class="sig-block">
-                <div class="sig-line"></div>
-                <div class="sig-title">Vice Captain</div>
-                <div class="sig-name">(Name & Signature)</div>
-                <div class="sig-date">Date: <span class="sig-date-line"></span></div>
+
+            ${notesHtml}
+
+            <div class="fwd-section">
+                <div class="fwd-label">Forwarded To:</div>
+                <div class="fwd-line"></div>
             </div>
-            <div class="sig-block">
-                <div class="sig-line"></div>
-                <div class="sig-title">Mission Director</div>
-                <div class="sig-name">(Name & Signature)</div>
-                <div class="sig-date">Date: <span class="sig-date-line"></span></div>
+
+            <div class="sig-section">
+                <div class="sig-section-title">Official Signatures</div>
+                <div class="sig-grid">
+                    <div class="sig-card"><div class="sig-space"></div><div class="sig-role">Captain</div><div class="sig-hint">Name & Signature</div></div>
+                    <div class="sig-card"><div class="sig-space"></div><div class="sig-role">Vice Captain</div><div class="sig-hint">Name & Signature</div></div>
+                    <div class="sig-card"><div class="sig-space"></div><div class="sig-role">Mission Director</div><div class="sig-hint">Name & Signature</div></div>
+                    <div class="sig-card"><div class="sig-space"></div><div class="sig-role">Technical Resource Head</div><div class="sig-hint">Name & Signature</div></div>
+                </div>
             </div>
-        </div>
-        <div class="footer">
-            <span>Generated by Cygnus Inventory</span>
-            <span>${new Date().toLocaleString()}</span>
+
+            <div class="doc-footer">Cygnus Logistics Portal &copy; ${new Date().getFullYear()} &mdash; This document was auto-generated. Verify all details before signing.</div>
         </div>
     </body></html>`);
     w.document.close();
