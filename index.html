@@ -1712,6 +1712,9 @@ input:focus, select:focus, textarea:focus {
                     <button class="nav-item" data-view="requests" id="nav-requests">
                         <span class="icon">🗂️</span> <span class="nav-text">Requests</span><span id="req-request-counter" class="required-counter hidden">0</span>
                     </button>
+                    <button class="nav-item" data-view="visa">
+                        <span class="icon">📝</span> <span class="nav-text">Visa</span>
+                    </button>
                     <button class="nav-item" data-view="required" id="nav-required">
                         <span class="icon">🛒</span> <span class="nav-text">Items Required</span><span id="req-counter" class="required-counter hidden">0</span>
                     </button>
@@ -1892,6 +1895,24 @@ input:focus, select:focus, textarea:focus {
                         </div>
                     </div>
                     <div id="requests-list" class="requests-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Visa View -->
+                <div id="view-visa" class="view">
+                    <div class="users-header">
+                        <h2>📝 Bridge Visa</h2>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <div class="request-status-tabs" id="visa-status-tabs">
+                                <button class="filter-btn active" data-visa-status="all">All</button>
+                                <button class="filter-btn" data-visa-status="pending">⏳ Pending</button>
+                                <button class="filter-btn" data-visa-status="approved">✅ Approved</button>
+                            </div>
+                            <button id="new-visa-btn" class="btn secondary-btn">+ New Visa</button>
+                        </div>
+                    </div>
+                    <div id="visa-list" class="requests-grid">
                         <!-- Populated by JS -->
                     </div>
                 </div>
@@ -2213,6 +2234,10 @@ input:focus, select:focus, textarea:focus {
                 <span class="nav-icon">🗂️</span>
                 <span>Requests</span>
             </button>
+            <button class="bottom-nav-item" data-view="visa">
+                <span class="nav-icon">📝</span>
+                <span>Visa</span>
+            </button>
             <button class="bottom-nav-item" data-view="required" id="mobile-nav-required">
                 <span class="nav-icon">🛒</span>
                 <span>Buy List</span>
@@ -2224,6 +2249,51 @@ input:focus, select:focus, textarea:focus {
         </div>
     </nav>
     
+    <!-- Visa Modal -->
+    <div id="visa-modal" class="modal-overlay hidden">
+        <div class="modal glass-panel" style="max-width:650px;">
+            <div class="modal-header">
+                <h3 id="visa-modal-title">New Visa</h3>
+                <button class="close-modal" aria-label="Close">✕</button>
+            </div>
+            <form id="visa-form">
+                <input type="hidden" id="visa-id">
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label for="visa-title">📝 Visa Title</label>
+                        <input type="text" id="visa-title" placeholder="e.g. Lab Visit - April 11" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="visa-names">👤 Names (people taking items)</label>
+                        <input type="text" id="visa-names" placeholder="e.g. Aniketh, Rahul, Priya">
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="visa-purpose">📋 Purpose / Notes</label>
+                        <textarea id="visa-purpose" rows="2" placeholder="What is this visa for?" style="width:100%;background:rgba(15,23,42,0.8);color:white;border:1px solid rgba(148,163,184,0.2);border-radius:8px;padding:0.75rem;font-size:0.9rem;resize:vertical;"></textarea>
+                    </div>
+                </div>
+                
+                <div style="margin-top:1rem;">
+                    <label style="font-size:0.85rem;color:var(--text-secondary);">📦 Add Items</label>
+                    <div style="position:relative;margin-top:0.5rem;">
+                        <input type="text" id="visa-item-search" placeholder="Search inventory items..." autocomplete="off" style="width:100%;">
+                        <div id="visa-search-dropdown" class="search-dropdown hidden" style="position:absolute;top:100%;left:0;right:0;max-height:200px;overflow-y:auto;background:rgba(15,23,42,0.95);border:1px solid rgba(148,163,184,0.3);border-radius:8px;z-index:200;"></div>
+                    </div>
+                </div>
+                
+                <div id="visa-items-container" style="margin-top:1rem;max-height:250px;overflow-y:auto;">
+                    <!-- Visa items rendered here -->
+                </div>
+                
+                <div class="modal-footer" style="margin-top:1.5rem;display:flex;gap:0.75rem;justify-content:flex-end;">
+                    <button type="button" class="btn ghost-btn close-modal">Cancel</button>
+                    <button type="button" class="btn secondary-btn" onclick="saveVisa('draft')">💾 Save Draft</button>
+                    <button type="button" class="btn primary-btn" onclick="saveVisa('pending')">📤 Submit for Approval</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Toast Notifications -->
     <div id="toast-container"></div>
 
@@ -2265,6 +2335,8 @@ const DB = {
     required_items: [],
     request_lists: [],
     request_items: [],
+    visas: [],
+    visa_items: [],
     currentUser: null,
     session: null
 };
@@ -2426,6 +2498,15 @@ async function syncViewData(viewId) {
             if (lists.status === 'fulfilled' && lists.value) DB.request_lists = lists.value;
             if (items.status === 'fulfilled' && items.value) DB.request_items = items.value;
             _lazyLoaded.requests = true;
+        }
+        if (viewId === 'visa' && !_lazyLoaded.visa) {
+            const [visas, vitems] = await Promise.allSettled([
+                sbFetch('visas?select=*&order=created_at.desc'),
+                sbFetch('visa_items?select=*&order=created_at.asc')
+            ]);
+            if (visas.status === 'fulfilled' && visas.value) DB.visas = visas.value;
+            if (vitems.status === 'fulfilled' && vitems.value) DB.visa_items = vitems.value;
+            _lazyLoaded.visa = true;
         }
     } catch(e) { console.error(`View sync error (${viewId}):`, e); }
 }
@@ -2706,6 +2787,10 @@ const switchView = async (viewId, title) => {
     if(viewId === 'requests') {
         await syncViewData(viewId);
         renderRequests();
+    }
+    if(viewId === 'visa') {
+        await syncViewData(viewId);
+        renderVisas();
     }
     if(viewId === 'settings') {
         els.newAdminUser.value = DB.currentUser.username;
@@ -4684,6 +4769,529 @@ window.exportRequestPDF = (reqId) => {
     </body></html>`);
     w.document.close();
     setTimeout(() => { w.print(); }, 500);
+};
+
+
+// ============================
+// VISA / GATE PASS FEATURE
+// ============================
+
+// State
+let currentVisaItems = [];
+let currentVisaFilter = 'all';
+
+// Permission checks
+function canCreateVisa() {
+    const role = DB.currentUser?.role;
+    return role === 'admin' || role === 'captain' || role === 'editor';
+}
+function canApproveVisa() {
+    const role = DB.currentUser?.role;
+    return role === 'admin' || role === 'captain';
+}
+
+// --- Render Visa List ---
+function renderVisas() {
+    const container = document.getElementById('visa-list');
+    if (!container) return;
+    
+    // Show/hide new visa button based on role
+    const newBtn = document.getElementById('new-visa-btn');
+    if (newBtn) newBtn.classList.toggle('hidden', !canCreateVisa());
+    
+    let visas = DB.visas || [];
+    if (currentVisaFilter !== 'all') {
+        visas = visas.filter(v => v.status === currentVisaFilter);
+    }
+    
+    if (visas.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-icon">📝</div><h3>No visas found</h3><p>${canCreateVisa() ? 'Create a new visa to get started.' : 'No visas to display.'}</p></div>`;
+        return;
+    }
+    
+    container.innerHTML = '';
+    visas.forEach(visa => {
+        const items = (DB.visa_items || []).filter(vi => vi.visa_id === visa.id);
+        const d = new Date(visa.created_at);
+        const statusColors = { draft: 'var(--text-secondary)', pending: 'var(--warning)', approved: 'var(--success)', rejected: 'var(--danger)' };
+        const statusIcons = { draft: '📝', pending: '⏳', approved: '✅', rejected: '❌' };
+        const hasChemicals = items.some(i => i.weight != null && i.weight > 0);
+        
+        const card = document.createElement('div');
+        card.className = 'request-card glass-panel';
+        card.innerHTML = `
+            <div class="request-card-header">
+                <div>
+                    <span class="request-card-title">${sanitize(visa.title)}</span>
+                    <span class="status-badge" style="background:${statusColors[visa.status]}20;color:${statusColors[visa.status]};margin-left:0.5rem;">${statusIcons[visa.status]} ${visa.status.charAt(0).toUpperCase() + visa.status.slice(1)}</span>
+                </div>
+            </div>
+            <div class="request-card-meta">
+                <span>By: ${sanitize(visa.created_by)}</span>
+                <span>${items.length} item${items.length !== 1 ? 's' : ''}</span>
+                <span>${d.toLocaleDateString()}</span>
+                ${visa.approved_by ? `<span>Approved by: ${sanitize(visa.approved_by)}</span>` : ''}
+            </div>
+            ${visa.names ? `<div style="font-size:0.8rem;color:var(--accent-primary);margin-top:0.3rem;">👤 ${sanitize(visa.names)}</div>` : ''}
+            ${visa.purpose ? `<div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">📋 ${sanitize(visa.purpose)}</div>` : ''}
+            <div class="request-card-items">
+                ${items.slice(0, 5).map(i => `<span class="request-card-item-chip">${sanitize(i.item_name)} ×${i.quantity}${i.weight ? ' ('+i.weight+'g)' : ''}</span>`).join('')}
+                ${items.length > 5 ? `<span class="request-card-item-chip">+${items.length - 5} more</span>` : ''}
+            </div>
+            <div class="request-card-actions">
+                ${visa.status === 'pending' && canApproveVisa() ? `<button class="btn primary-btn small" onclick="event.stopPropagation();approveVisa('${visa.id}')">✅ Approve</button><button class="btn outline-btn small" onclick="event.stopPropagation();rejectVisa('${visa.id}')">❌ Reject</button>` : ''}
+                ${visa.status === 'draft' && visa.created_by === DB.currentUser?.username ? `<button class="btn secondary-btn small" onclick="event.stopPropagation();editVisa('${visa.id}')">✏️ Edit</button><button class="btn primary-btn small" onclick="event.stopPropagation();submitVisa('${visa.id}')">📤 Submit</button>` : ''}
+                <button class="btn outline-btn small" onclick="event.stopPropagation();exportVisaPDF('${visa.id}')">📄 PDF</button>
+                ${(visa.created_by === DB.currentUser?.username && visa.status === 'draft') || DB.currentUser?.role === 'admin' ? `<button class="btn outline-btn small" onclick="event.stopPropagation();deleteVisa('${visa.id}')">🗑️</button>` : ''}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// --- Visa Item Search ---
+const visaSearchInput = document.getElementById('visa-item-search');
+const visaDropdown = document.getElementById('visa-search-dropdown');
+
+if (visaSearchInput) {
+    visaSearchInput.addEventListener('input', () => {
+        const term = visaSearchInput.value.trim().toLowerCase();
+        if (term.length < 2) { visaDropdown.classList.add('hidden'); return; }
+        
+        const matches = DB.items.filter(item => 
+            item.name.toLowerCase().includes(term) || 
+            (item.category && item.category.toLowerCase().includes(term))
+        ).slice(0, 10);
+        
+        if (matches.length === 0) {
+            visaDropdown.classList.add('hidden');
+            return;
+        }
+        
+        visaDropdown.innerHTML = '';
+        matches.forEach(item => {
+            const div = document.createElement('div');
+            div.style.cssText = 'padding:0.6rem 1rem;cursor:pointer;border-bottom:1px solid rgba(148,163,184,0.1);font-size:0.85rem;';
+            div.innerHTML = `<span>📦 ${sanitize(item.name)}</span><span style="float:right;color:var(--text-secondary);">${sanitize(item.category)} | Qty: ${item.quantity}</span>`;
+            div.addEventListener('click', () => {
+                // Check if already added
+                if (currentVisaItems.find(vi => vi.item_id === item.id)) {
+                    showToast('Item already added', 'error');
+                    return;
+                }
+                currentVisaItems.push({
+                    item_id: item.id,
+                    item_name: item.name,
+                    category: item.category,
+                    quantity: 1,
+                    weight: item.category === 'Chemicals' ? (item.weight || 0) : null
+                });
+                renderVisaItemsList();
+                visaSearchInput.value = '';
+                visaDropdown.classList.add('hidden');
+            });
+            div.addEventListener('mouseenter', () => div.style.background = 'rgba(148,163,184,0.1)');
+            div.addEventListener('mouseleave', () => div.style.background = '');
+            visaDropdown.appendChild(div);
+        });
+        visaDropdown.classList.remove('hidden');
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#visa-search-dropdown') && e.target !== visaSearchInput) {
+            visaDropdown.classList.add('hidden');
+        }
+    });
+}
+
+// --- Render Visa Items List (in modal) ---
+function renderVisaItemsList() {
+    const container = document.getElementById('visa-items-container');
+    if (!container) return;
+    if (currentVisaItems.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);font-size:0.85rem;padding:1rem;">No items added yet. Search above to add items.</p>';
+        return;
+    }
+    container.innerHTML = '';
+    currentVisaItems.forEach((item, idx) => {
+        const isChemical = item.category === 'Chemicals';
+        const row = document.createElement('div');
+        row.className = 'request-item-row';
+        row.style.cssText = 'display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid rgba(148,163,184,0.1);';
+        row.innerHTML = `
+            <span style="flex:1;font-size:0.85rem;">${sanitize(item.item_name)} <span style="color:var(--text-secondary);font-size:0.75rem;">(${sanitize(item.category)})</span></span>
+            <input type="number" min="1" value="${item.quantity}" onchange="updateVisaItem(${idx},'quantity',this.value)" style="width:60px;text-align:center;background:rgba(15,23,42,0.8);color:white;border:1px solid rgba(148,163,184,0.2);border-radius:6px;padding:0.3rem;" placeholder="Qty">
+            ${isChemical ? `<input type="number" min="0" step="0.1" value="${item.weight || ''}" onchange="updateVisaItem(${idx},'weight',this.value)" style="width:80px;text-align:center;background:rgba(15,23,42,0.8);color:white;border:1px solid rgba(148,163,184,0.2);border-radius:6px;padding:0.3rem;" placeholder="Weight(g)">` : ''}
+            <button class="remove-item" onclick="removeVisaItem(${idx})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:1.1rem;">❌</button>
+        `;
+        container.appendChild(row);
+    });
+}
+
+window.updateVisaItem = (idx, field, value) => {
+    if (currentVisaItems[idx]) {
+        currentVisaItems[idx][field] = field === 'weight' ? parseFloat(value) : parseInt(value);
+    }
+};
+window.removeVisaItem = (idx) => {
+    currentVisaItems.splice(idx, 1);
+    renderVisaItemsList();
+};
+
+// --- Open New Visa Modal ---
+document.getElementById('new-visa-btn')?.addEventListener('click', () => {
+    if (!canCreateVisa()) { showToast('You do not have permission to create visas', 'error'); return; }
+    currentVisaItems = [];
+    document.getElementById('visa-id').value = '';
+    document.getElementById('visa-title').value = '';
+    document.getElementById('visa-names').value = '';
+    document.getElementById('visa-purpose').value = '';
+    document.getElementById('visa-modal-title').textContent = 'New Visa';
+    renderVisaItemsList();
+    document.getElementById('visa-modal').classList.remove('hidden');
+});
+
+// Close visa modal
+document.querySelectorAll('#visa-modal .close-modal').forEach(btn => {
+    btn.addEventListener('click', () => document.getElementById('visa-modal').classList.add('hidden'));
+});
+
+// --- Save Visa ---
+window.saveVisa = async (status) => {
+    const title = document.getElementById('visa-title').value.trim();
+    const names = document.getElementById('visa-names').value.trim();
+    const purpose = document.getElementById('visa-purpose').value.trim();
+    const visaId = document.getElementById('visa-id').value;
+    
+    if (!title) { showToast('Please enter a visa title', 'error'); return; }
+    if (currentVisaItems.length === 0) { showToast('Please add at least one item', 'error'); return; }
+    
+    try {
+        if (visaId) {
+            // Update existing visa
+            await sbFetch(`visas?id=eq.${visaId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ title, names, purpose, status })
+            });
+            // Delete old items and re-insert
+            await sbFetch(`visa_items?visa_id=eq.${visaId}`, { method: 'DELETE' });
+            await sbFetch('visa_items', {
+                method: 'POST',
+                body: JSON.stringify(currentVisaItems.map(i => ({ ...i, visa_id: visaId })))
+            });
+        } else {
+            // Create new visa
+            const [visa] = await sbFetch('visas', {
+                method: 'POST',
+                body: JSON.stringify({ title, names, purpose, status, created_by: DB.currentUser.username })
+            });
+            if (visa && visa.id) {
+                await sbFetch('visa_items', {
+                    method: 'POST',
+                    body: JSON.stringify(currentVisaItems.map(i => ({ ...i, visa_id: visa.id })))
+                });
+            }
+        }
+        
+        document.getElementById('visa-modal').classList.add('hidden');
+        showToast(status === 'pending' ? 'Visa submitted for approval! ✅' : 'Visa draft saved ✅');
+        await refreshVisaData();
+        renderVisas();
+    } catch(err) {
+        console.error(err);
+        showToast('Failed to save visa: ' + err.message, 'error');
+    }
+};
+
+// --- Edit Visa ---
+window.editVisa = async (visaId) => {
+    const visa = (DB.visas || []).find(v => v.id === visaId);
+    if (!visa) return;
+    
+    document.getElementById('visa-id').value = visa.id;
+    document.getElementById('visa-title').value = visa.title;
+    document.getElementById('visa-names').value = visa.names || '';
+    document.getElementById('visa-purpose').value = visa.purpose || '';
+    document.getElementById('visa-modal-title').textContent = 'Edit Visa';
+    
+    currentVisaItems = (DB.visa_items || []).filter(vi => vi.visa_id === visaId).map(vi => ({
+        item_id: vi.item_id,
+        item_name: vi.item_name,
+        category: vi.category,
+        quantity: vi.quantity,
+        weight: vi.weight
+    }));
+    
+    renderVisaItemsList();
+    document.getElementById('visa-modal').classList.remove('hidden');
+};
+
+// --- Submit Visa (draft -> pending) ---
+window.submitVisa = async (visaId) => {
+    try {
+        await sbFetch(`visas?id=eq.${visaId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status: 'pending' })
+        });
+        showToast('Visa submitted for approval! ✅');
+        await refreshVisaData();
+        renderVisas();
+    } catch(err) { showToast('Failed to submit: ' + err.message, 'error'); }
+};
+
+// --- Approve Visa (deduct stock) ---
+window.approveVisa = async (visaId) => {
+    if (!canApproveVisa()) { showToast('Not authorized', 'error'); return; }
+    if (!confirm('Approve this visa? Stock will be deducted from inventory.')) return;
+    
+    try {
+        const items = (DB.visa_items || []).filter(vi => vi.visa_id === visaId);
+        
+        // Deduct stock for each item
+        for (const vi of items) {
+            if (!vi.item_id) continue;
+            const invItem = DB.items.find(i => i.id === vi.item_id);
+            if (!invItem) continue;
+            
+            const newQty = Math.max(0, invItem.quantity - vi.quantity);
+            const updateData = { quantity: newQty };
+            
+            // Also deduct weight for chemicals
+            if (invItem.category === 'Chemicals' && vi.weight && invItem.weight != null) {
+                updateData.weight = Math.max(0, invItem.weight - vi.weight);
+            }
+            
+            await sbFetch(`items?id=eq.${vi.item_id}`, {
+                method: 'PATCH',
+                body: JSON.stringify(updateData)
+            });
+            
+            // Update local state
+            invItem.quantity = updateData.quantity;
+            if (updateData.weight != null) invItem.weight = updateData.weight;
+        }
+        
+        // Mark visa as approved
+        await sbFetch(`visas?id=eq.${visaId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status: 'approved', approved_by: DB.currentUser.username, approved_at: new Date().toISOString() })
+        });
+        
+        // Create checkout entries for each item
+        const visa = (DB.visas || []).find(v => v.id === visaId);
+        const checkedOutBy = visa?.names || visa?.created_by || DB.currentUser.username;
+        const now = new Date();
+        const returnDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+        
+        for (const vi of items) {
+            if (!vi.item_id) continue;
+            await sbFetch('checkouts', {
+                method: 'POST',
+                body: JSON.stringify({
+                    item_id: vi.item_id,
+                    item_name: vi.item_name,
+                    checked_out_by: checkedOutBy,
+                    quantity: vi.quantity,
+                    checked_out_at: now.toISOString(),
+                    expected_return: returnDate.toISOString(),
+                    notes: `Bridge Visa: ${visa?.title || 'N/A'}`
+                })
+            });
+        }
+        
+        // Refresh checkouts
+        buildCheckoutMap();
+        _lazyLoaded.checkouts = false;
+        
+        showToast('Visa approved! Stock deducted & items checked out ✅');
+        await refreshVisaData();
+        renderVisas();
+        renderInventory();
+    } catch(err) {
+        console.error(err);
+        showToast('Approval failed: ' + err.message, 'error');
+    }
+};
+
+// --- Reject Visa ---
+window.rejectVisa = async (visaId) => {
+    if (!canApproveVisa()) return;
+    if (!confirm('Reject this visa?')) return;
+    try {
+        await sbFetch(`visas?id=eq.${visaId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status: 'rejected', approved_by: DB.currentUser.username, approved_at: new Date().toISOString() })
+        });
+        showToast('Visa rejected ❌');
+        await refreshVisaData();
+        renderVisas();
+    } catch(err) { showToast('Failed: ' + err.message, 'error'); }
+};
+
+// --- Delete Visa ---
+window.deleteVisa = async (visaId) => {
+    if (!confirm('Delete this visa?')) return;
+    try {
+        await sbFetch(`visa_items?visa_id=eq.${visaId}`, { method: 'DELETE' });
+        await sbFetch(`visas?id=eq.${visaId}`, { method: 'DELETE' });
+        showToast('Visa deleted');
+        await refreshVisaData();
+        renderVisas();
+    } catch(err) { showToast('Failed: ' + err.message, 'error'); }
+};
+
+// --- Refresh Visa Data ---
+async function refreshVisaData() {
+    try {
+        const [visas, items] = await Promise.allSettled([
+            sbFetch('visas?select=*&order=created_at.desc'),
+            sbFetch('visa_items?select=*&order=created_at.asc')
+        ]);
+        if (visas.status === 'fulfilled' && visas.value) DB.visas = visas.value;
+        if (items.status === 'fulfilled' && items.value) DB.visa_items = items.value;
+    } catch(e) { console.error('Visa refresh error:', e); }
+}
+
+// --- Visa Filter Tabs ---
+document.querySelectorAll('#visa-status-tabs .filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#visa-status-tabs .filter-btn').forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        currentVisaFilter = e.currentTarget.dataset.visaStatus;
+        renderVisas();
+    });
+});
+
+// --- Export Visa PDF ---
+window.exportVisaPDF = (visaId) => {
+    const visa = (DB.visas || []).find(v => v.id === visaId);
+    if (!visa) return;
+    const items = (DB.visa_items || []).filter(vi => vi.visa_id === visaId);
+    const hasChemicals = items.some(i => i.weight != null && i.weight > 0);
+    const totalQty = items.reduce((s, i) => s + (i.quantity || 0), 0);
+    const d = new Date(visa.created_at);
+    
+    const w = window.open('', '_blank');
+    w.document.write(`<html><head><title>Visa - ${sanitize(visa.title)}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; color:#1e293b; background:#fff; padding:0; }
+        .doc-container { max-width:800px; margin:0 auto; padding:2.5rem; }
+        
+        /* Header */
+        .doc-header { display:flex; align-items:center; gap:1.5rem; border-bottom:3px solid #0f172a; padding-bottom:1.5rem; margin-bottom:2rem; }
+        .doc-header h1 { font-size:1.6rem; font-weight:700; color:#0f172a; }
+        .doc-header .subtitle { font-size:0.85rem; color:#64748b; margin-top:0.25rem; }
+        .visa-badge { display:inline-block; padding:0.25rem 0.75rem; border-radius:20px; font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+        .visa-badge.approved { background:#dcfce7; color:#166534; }
+        .visa-badge.pending { background:#fef3c7; color:#92400e; }
+        .visa-badge.draft { background:#f1f5f9; color:#475569; }
+        .visa-badge.rejected { background:#fee2e2; color:#991b1b; }
+        
+        /* Info Grid */
+        .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2rem; padding:1.25rem; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; }
+        .info-item { font-size:0.85rem; }
+        .info-item .label { color:#64748b; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.2rem; }
+        .info-item .value { font-weight:600; color:#0f172a; }
+        
+        /* Purpose */
+        .purpose-box { background:#f0f9ff; border-left:4px solid #3b82f6; padding:1rem 1.25rem; border-radius:0 8px 8px 0; margin-bottom:2rem; font-size:0.85rem; color:#1e40af; }
+        
+        /* Table */
+        table { width:100%; border-collapse:collapse; margin-bottom:2rem; }
+        th { background:#0f172a; color:#fff; padding:0.75rem 1rem; text-align:left; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px; }
+        td { padding:0.65rem 1rem; border-bottom:1px solid #e2e8f0; font-size:0.85rem; }
+        tr:nth-child(even) { background:#f8fafc; }
+        tr:hover { background:#f1f5f9; }
+        .total-row { background:#0f172a !important; color:#fff; font-weight:700; }
+        .total-row td { border:none; }
+        
+        /* Signature */
+        .sig-section { margin-top:3rem; page-break-inside:avoid; }
+        .sig-section h3 { font-size:0.9rem; color:#64748b; text-transform:uppercase; letter-spacing:1px; margin-bottom:1.5rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.5rem; }
+        .sig-block { display:flex; justify-content:center; margin-top:1rem; }
+        .sig-card { text-align:center; width:280px; }
+        .sig-space { height:80px; border-bottom:2px solid #0f172a; margin-bottom:0.5rem; }
+        .sig-role { font-weight:700; font-size:0.9rem; color:#0f172a; }
+        .sig-hint { font-size:0.7rem; color:#94a3b8; margin-top:0.2rem; }
+        
+        /* Footer */
+        .doc-footer { text-align:center; font-size:0.7rem; color:#94a3b8; margin-top:3rem; padding-top:1rem; border-top:1px solid #e2e8f0; }
+        
+        @media print {
+            body { padding:0; }
+            .doc-container { padding:1.5rem; }
+        }
+    </style>
+    </head><body>
+    <div class="doc-container">
+        <div class="doc-header">
+            <div>
+                <h1>📝 BRIDGE VISA</h1>
+                <div class="subtitle">Cygnus Inventory Management System</div>
+            </div>
+            <div style="margin-left:auto;">
+                <span class="visa-badge ${visa.status}">${visa.status.toUpperCase()}</span>
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item"><div class="label">Visa Title</div><div class="value">${sanitize(visa.title)}</div></div>
+            <div class="info-item"><div class="label">Created By</div><div class="value">${sanitize(visa.created_by)}</div></div>
+            <div class="info-item"><div class="label">Date</div><div class="value">${d.toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' })}</div></div>
+            <div class="info-item"><div class="label">Status</div><div class="value">${visa.status.charAt(0).toUpperCase() + visa.status.slice(1)}${visa.approved_by ? ' by ' + sanitize(visa.approved_by) : ''}</div></div>
+            ${visa.names ? `<div class="info-item" style="grid-column:1/-1;"><div class="label">Names</div><div class="value">${sanitize(visa.names)}</div></div>` : ''}
+        </div>
+        
+        ${visa.purpose ? `<div class="purpose-box"><strong>Purpose:</strong> ${sanitize(visa.purpose)}</div>` : ''}
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    ${hasChemicals ? '<th>Weight (g)</th>' : ''}
+                </tr>
+            </thead>
+            <tbody>
+                ${items.map((item, idx) => `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td><strong>${sanitize(item.item_name)}</strong></td>
+                        <td>${sanitize(item.category || 'N/A')}</td>
+                        <td>${item.quantity}</td>
+                        ${hasChemicals ? `<td>${item.weight ? item.weight + 'g' : '—'}</td>` : ''}
+                    </tr>
+                `).join('')}
+                <tr class="total-row">
+                    <td></td>
+                    <td>TOTAL</td>
+                    <td>${items.length} item${items.length !== 1 ? 's' : ''}</td>
+                    <td>${totalQty}</td>
+                    ${hasChemicals ? `<td>${items.reduce((s, i) => s + (i.weight || 0), 0)}g</td>` : ''}
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="sig-section">
+            <h3>Authorization</h3>
+            <div class="sig-block">
+                <div class="sig-card">
+                    <div class="sig-space"></div>
+                    <div class="sig-role">Technical Resource Head</div>
+                    <div class="sig-hint">Name & Signature</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="doc-footer">Cygnus Logistics Portal &copy; ${new Date().getFullYear()} &mdash; This document was auto-generated. Verify all details before signing.</div>
+    </div>
+    </body></html>`);
+    w.document.close();
+    setTimeout(() => w.print(), 500);
 };
 
 </script>
