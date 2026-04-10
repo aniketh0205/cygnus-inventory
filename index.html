@@ -702,6 +702,7 @@ input:focus, select:focus, textarea:focus {
     /* Show bottom nav, hide sidebar */
     .mobile-bottom-nav { display: block; }
     .sidebar { display: none !important; }
+    #mobile-logout-btn-header { display: inline-block !important; }
 
     /* Auth screen: scrollable, centered vertically */
     #auth-screen {
@@ -1746,6 +1747,7 @@ input:focus, select:focus, textarea:focus {
                         <button id="add-item-btn" class="btn primary-btn hidden">
                             <span class="icon">+</span> Add Item
                         </button>
+                        <button id="mobile-logout-btn-header" class="btn outline-btn small" style="display:none;font-size:0.75rem;padding:0.3rem 0.6rem;" onclick="document.getElementById('logout-btn').click()">🚪 Logout</button>
                     </div>
                 </header>
 
@@ -2241,10 +2243,6 @@ input:focus, select:focus, textarea:focus {
             <button class="bottom-nav-item" data-view="required" id="mobile-nav-required">
                 <span class="nav-icon">🛒</span>
                 <span>Buy List</span>
-            </button>
-            <button class="bottom-nav-item" id="mobile-logout-btn">
-                <span class="nav-icon">Ys</span>
-                <span>Logout</span>
             </button>
         </div>
     </nav>
