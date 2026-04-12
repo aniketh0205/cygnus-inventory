@@ -797,7 +797,14 @@ input:focus, select:focus, textarea:focus {
         align-items: center;
         flex-wrap: nowrap;
     }
-    .search-bar { flex: 1; width: auto; min-width: 0; }
+    .search-bar { flex: 1; width: auto; min-width: 0; transition: all 0.3s ease; }
+    /* Expand search bar on focus — hide siblings */
+    .search-bar:focus-within {
+        flex: 100;
+    }
+    .search-bar:focus-within ~ * {
+        display: none !important;
+    }
     #add-item-btn { flex-shrink: 0; font-size: 0.75rem !important; padding: 0.35rem 0.5rem !important; min-height: 34px; }
     #mobile-logout-btn-header { flex-shrink: 0; }
     .notif-bell {
@@ -814,8 +821,13 @@ input:focus, select:focus, textarea:focus {
         right: -1px;
     }
     .notif-dropdown {
-        right: -60px;
-        width: 260px;
+        position: fixed;
+        top: auto;
+        bottom: 80px;
+        left: 0.5rem;
+        right: 0.5rem;
+        width: auto;
+        max-height: 300px;
     }
     .search-bar input {
         width: 100%;
@@ -5728,16 +5740,24 @@ function updateNotifications() {
         }
     }
 
-    // Low stock items
+    // Low stock items — list each one with name
+    const outOfStock = DB.items.filter(item => item.quantity === 0);
     const lowStock = DB.items.filter(item => {
-        if (item.quantity === 0) return true;
+        if (item.quantity === 0) return false; // already counted above
         if (item.category === 'Chemicals' && item.weight != null && item.min_weight != null && item.weight < item.min_weight) return true;
-        if (item.category !== 'Chemicals' && item.min_quantity != null && item.quantity < item.min_quantity && item.quantity > 0) return true;
+        if (item.category !== 'Chemicals' && item.min_quantity != null && item.quantity < item.min_quantity) return true;
         return false;
     });
-    if (lowStock.length > 0) {
-        notifications.push({ icon: '📦', type: 'info', text: `${lowStock.length} item(s) are low/out of stock` });
-    }
+    
+    outOfStock.forEach(item => {
+        notifications.push({ icon: '🔴', type: 'danger', text: `${item.name} — Out of Stock` });
+    });
+    lowStock.forEach(item => {
+        const detail = item.category === 'Chemicals' 
+            ? `${item.weight}g / min ${item.min_weight}g`
+            : `${item.quantity} / min ${item.min_quantity}`;
+        notifications.push({ icon: '⚠️', type: 'warn', text: `${item.name} — Low (${detail})` });
+    });
 
     // Pending buy list
     const pendingBuys = (DB.required_items || []).filter(r => !r.purchased);
